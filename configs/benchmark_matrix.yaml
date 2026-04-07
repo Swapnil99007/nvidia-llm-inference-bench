@@ -1,0 +1,12 @@
+run_name: phase2_baseline_distilgpt2
+prompt_file: prompts/prompts.jsonl
+
+settings:
+  - label: short_output
+    max_new_tokens: 32
+
+  - label: default_output
+    max_new_tokens: 64
+
+  - label: long_output
+    max_new_tokens: 96
