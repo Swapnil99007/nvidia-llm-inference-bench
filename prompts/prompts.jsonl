@@ -1,0 +1,20 @@
+{"id": "p1", "category": "short_qa", "prompt": "What is the capital of France?"}
+{"id": "p2", "category": "short_qa", "prompt": "Explain what a GPU does in simple words."}
+{"id": "p3", "category": "summarization", "prompt": "Summarize this in 2 sentences: Machine learning systems often face bottlenecks in data loading, model serving, and hardware utilization."}
+{"id": "p4", "category": "summarization", "prompt": "Summarize this paragraph: NVIDIA develops GPUs, software platforms, and AI infrastructure used in machine learning, inference, robotics, and high-performance computing."}
+{"id": "p5", "category": "coding", "prompt": "Write a Python function to check if a string is a palindrome."}
+{"id": "p6", "category": "coding", "prompt": "Write Python code to reverse a linked list."}
+{"id": "p7", "category": "reasoning", "prompt": "If a train travels 60 miles in 1.5 hours, what is its average speed?"}
+{"id": "p8", "category": "reasoning", "prompt": "A batch job takes 12 minutes on 1 GPU and 4 minutes on 4 GPUs. What is the speedup?"}
+{"id": "p9", "category": "long_context", "prompt": "In machine learning inference systems, throughput measures how many requests or tokens can be processed in a given time, while latency measures how long a single request takes to complete. Engineers often face tradeoffs between throughput and latency, especially under concurrent workloads. Explain the difference between throughput and latency in simple terms."}
+{"id": "p10", "category": "long_context", "prompt": "Large language models are often deployed using inference servers that support batching, caching, and optimized execution backends. These choices affect memory usage, latency, and cost. Explain why benchmarking different serving stacks matters."}
+{"id": "p11", "category": "short_qa", "prompt": "What is the difference between RAM and VRAM?"}
+{"id": "p12", "category": "coding", "prompt": "Write a Python function that merges two sorted arrays."}
+{"id": "p13", "category": "reasoning", "prompt": "If latency drops from 200 ms to 120 ms, what is the percentage reduction?"}
+{"id": "p14", "category": "summarization", "prompt": "Summarize this in one sentence: Containerization helps package applications and dependencies consistently across environments."}
+{"id": "p15", "category": "long_context", "prompt": "Model serving frameworks like vLLM and TensorRT-LLM aim to improve efficiency for large language model inference by optimizing memory management, batching, and execution. Explain what kinds of improvements an engineer might look for when comparing serving frameworks."}
+{"id": "p16", "category": "short_qa", "prompt": "What is a transformer model?"}
+{"id": "p17", "category": "coding", "prompt": "Write Python code to find the maximum subarray sum using Kadane's algorithm."}
+{"id": "p18", "category": "reasoning", "prompt": "If one server handles 50 requests per second and another handles 80, how much higher is the second server's throughput?"}
+{"id": "p19", "category": "summarization", "prompt": "Summarize this: Profiling tools help engineers identify compute bottlenecks, memory inefficiencies, and kernel-level slowdowns."}
+{"id": "p20", "category": "long_context", "prompt": "Deep learning deployment often requires balancing accuracy, latency, memory, and cost. Teams may compare multiple serving stacks to understand which one is best suited for production workloads. Explain why these tradeoffs matter."}
