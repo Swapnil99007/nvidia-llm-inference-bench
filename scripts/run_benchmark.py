@@ -151,6 +151,7 @@ def main():
     metadata = {
         "run_name": run_name,
         "run_timestamp": run_timestamp,
+        "engine_name": "hf_transformers",
         "model_name": model_name,
         "device": str(device),
         "prompt_file": str(prompt_file),
