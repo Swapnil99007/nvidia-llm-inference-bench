@@ -121,6 +121,7 @@ def main():
             row = {
                 "run_name": run_name,
                 "run_timestamp": run_timestamp,
+                "engine_name": "hf_transformers",
                 "setting_label": label,
                 "model_name": model_name,
                 "device": str(device),
@@ -162,9 +163,28 @@ def main():
     with metadata_file.open("w", encoding="utf-8") as f:
         json.dump(metadata, f, indent=2)
 
+    summary = {
+        "run_name": run_name,
+        "run_timestamp": run_timestamp,
+        "engine_name": "hf_transformers",
+        "model_name": model_name,
+        "device": str(device),
+        "num_prompts": len(prompts),
+        "num_settings": len(settings),
+        "avg_latency_sec": float(df["latency_sec"].mean()),
+        "min_latency_sec": float(df["latency_sec"].min()),
+        "max_latency_sec": float(df["latency_sec"].max()),
+        "avg_tokens_per_sec": float(df["tokens_per_sec"].mean()),
+        "min_tokens_per_sec": float(df["tokens_per_sec"].min()),
+        "max_tokens_per_sec": float(df["tokens_per_sec"].max()),
+    }
+    summary_file = run_dir / "run_summary.json"
+    with summary_file.open("w", encoding="utf-8") as f:
+        json.dump(summary, f, indent=2)
+
     print(f"\nSaved results to: {results_file}")
     print(f"Saved metadata to: {metadata_file}")
-
+    print(f"Saved summary to: {summary_file}")
 
 if __name__ == "__main__":
     main()
