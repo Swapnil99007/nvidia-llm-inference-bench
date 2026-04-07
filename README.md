@@ -23,3 +23,10 @@ This project begins with a local baseline benchmark for text generation using a 
 
 ### Goal of this phase
 Establish a reproducible benchmark harness that can later be extended to compare multiple inference engines such as vLLM and TensorRT-LLM on NVIDIA GPUs.
+
+
+### Phase 1 observations
+- Built a local benchmark harness for causal language model inference
+- Logged per-prompt latency and tokens/sec to structured CSV output
+- Generated baseline plots for latency and throughput analysis
+- Established a reusable workflow that can be extended to vLLM and TensorRT-LLM in later phases

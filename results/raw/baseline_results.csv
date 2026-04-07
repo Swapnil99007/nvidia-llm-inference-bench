@@ -1,5 +1,69 @@
-prompt_id,category,model_name,device,input_token_count,output_token_count,latency_sec,tokens_per_sec,prompt_text,generated_text
-p1,short_qa,distilgpt2,mps,7,64,1.5263912500813603,41.92896152712396,What is the capital of France?,"What is the capital of France?
+prompt_id,category,model_name,device,input_token_count,output_token_count,latency_sec,tokens_per_sec,prompt_text,generated_text,generated_only_text
+p1,short_qa,distilgpt2,mps,7,64,1.099889666074887,58.1876546112058,What is the capital of France?,"What is the capital of France?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -64,7 +128,71 @@ p1,short_qa,distilgpt2,mps,7,64,1.5263912500813603,41.92896152712396,What is the
 
 
 "
-p2,short_qa,distilgpt2,mps,10,64,1.3699744580080733,46.71619943415241,Explain what a GPU does in simple words.,"Explain what a GPU does in simple words.
+p2,short_qa,distilgpt2,mps,10,64,0.9797319580102339,65.32398935927277,Explain what a GPU does in simple words.,"Explain what a GPU does in simple words.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -129,7 +257,71 @@ p2,short_qa,distilgpt2,mps,10,64,1.3699744580080733,46.71619943415241,Explain wh
 
 
 "
-p3,summarization,distilgpt2,mps,28,64,1.2517217500135303,51.1295741240481,"Summarize this in 2 sentences: Machine learning systems often face bottlenecks in data loading, model serving, and hardware utilization.","Summarize this in 2 sentences: Machine learning systems often face bottlenecks in data loading, model serving, and hardware utilization.
+p3,summarization,distilgpt2,mps,28,64,1.1580256660236046,55.26647800455181,"Summarize this in 2 sentences: Machine learning systems often face bottlenecks in data loading, model serving, and hardware utilization.","Summarize this in 2 sentences: Machine learning systems often face bottlenecks in data loading, model serving, and hardware utilization.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -194,7 +386,71 @@ p3,summarization,distilgpt2,mps,28,64,1.2517217500135303,51.1295741240481,"Summa
 
 
 "
-p4,summarization,distilgpt2,mps,31,64,1.026782542001456,62.33062735489054,"Summarize this paragraph: NVIDIA develops GPUs, software platforms, and AI infrastructure used in machine learning, inference, robotics, and high-performance computing.","Summarize this paragraph: NVIDIA develops GPUs, software platforms, and AI infrastructure used in machine learning, inference, robotics, and high-performance computing.
+p4,summarization,distilgpt2,mps,31,64,1.0960038749035448,58.39395413235414,"Summarize this paragraph: NVIDIA develops GPUs, software platforms, and AI infrastructure used in machine learning, inference, robotics, and high-performance computing.","Summarize this paragraph: NVIDIA develops GPUs, software platforms, and AI infrastructure used in machine learning, inference, robotics, and high-performance computing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -259,7 +515,71 @@ p4,summarization,distilgpt2,mps,31,64,1.026782542001456,62.33062735489054,"Summa
 
 
 "
-p5,coding,distilgpt2,mps,15,64,1.3242482090136036,48.32930833085427,Write a Python function to check if a string is a palindrome.,"Write a Python function to check if a string is a palindrome.
+p5,coding,distilgpt2,mps,15,64,1.1508525420213118,55.61094724402567,Write a Python function to check if a string is a palindrome.,"Write a Python function to check if a string is a palindrome.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -324,7 +644,71 @@ p5,coding,distilgpt2,mps,15,64,1.3242482090136036,48.32930833085427,Write a Pyth
 
 
 "
-p6,coding,distilgpt2,mps,9,64,1.5018710830481723,42.613511054561805,Write Python code to reverse a linked list.,"Write Python code to reverse a linked list.
+p6,coding,distilgpt2,mps,9,64,1.0888585420325398,58.77714829745754,Write Python code to reverse a linked list.,"Write Python code to reverse a linked list.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -389,7 +773,71 @@ p6,coding,distilgpt2,mps,9,64,1.5018710830481723,42.613511054561805,Write Python
 
 
 "
-p7,reasoning,distilgpt2,mps,18,64,1.1170407920144498,57.29423711069999,"If a train travels 60 miles in 1.5 hours, what is its average speed?","If a train travels 60 miles in 1.5 hours, what is its average speed?
+p7,reasoning,distilgpt2,mps,18,64,1.1131839170120656,57.49274582746807,"If a train travels 60 miles in 1.5 hours, what is its average speed?","If a train travels 60 miles in 1.5 hours, what is its average speed?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -454,7 +902,71 @@ p7,reasoning,distilgpt2,mps,18,64,1.1170407920144498,57.29423711069999,"If a tra
 
 
 "
-p8,reasoning,distilgpt2,mps,22,64,1.0010393749689683,63.93354906941994,A batch job takes 12 minutes on 1 GPU and 4 minutes on 4 GPUs. What is the speedup?,"A batch job takes 12 minutes on 1 GPU and 4 minutes on 4 GPUs. What is the speedup?
+p8,reasoning,distilgpt2,mps,22,64,1.0777334169251844,59.38388751329109,A batch job takes 12 minutes on 1 GPU and 4 minutes on 4 GPUs. What is the speedup?,"A batch job takes 12 minutes on 1 GPU and 4 minutes on 4 GPUs. What is the speedup?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -519,7 +1031,71 @@ p8,reasoning,distilgpt2,mps,22,64,1.0010393749689683,63.93354906941994,A batch j
 
 
 "
-p9,long_context,distilgpt2,mps,60,64,1.7579961670562625,36.40508506179909,"In machine learning inference systems, throughput measures how many requests or tokens can be processed in a given time, while latency measures how long a single request takes to complete. Engineers often face tradeoffs between throughput and latency, especially under concurrent workloads. Explain the difference between throughput and latency in simple terms.","In machine learning inference systems, throughput measures how many requests or tokens can be processed in a given time, while latency measures how long a single request takes to complete. Engineers often face tradeoffs between throughput and latency, especially under concurrent workloads. Explain the difference between throughput and latency in simple terms.
+p9,long_context,distilgpt2,mps,60,64,1.3196211670292541,48.49876737281921,"In machine learning inference systems, throughput measures how many requests or tokens can be processed in a given time, while latency measures how long a single request takes to complete. Engineers often face tradeoffs between throughput and latency, especially under concurrent workloads. Explain the difference between throughput and latency in simple terms.","In machine learning inference systems, throughput measures how many requests or tokens can be processed in a given time, while latency measures how long a single request takes to complete. Engineers often face tradeoffs between throughput and latency, especially under concurrent workloads. Explain the difference between throughput and latency in simple terms.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -584,7 +1160,71 @@ p9,long_context,distilgpt2,mps,60,64,1.7579961670562625,36.40508506179909,"In ma
 
 
 "
-p10,long_context,distilgpt2,mps,42,64,1.2787127080373466,50.05033546450904,"Large language models are often deployed using inference servers that support batching, caching, and optimized execution backends. These choices affect memory usage, latency, and cost. Explain why benchmarking different serving stacks matters.","Large language models are often deployed using inference servers that support batching, caching, and optimized execution backends. These choices affect memory usage, latency, and cost. Explain why benchmarking different serving stacks matters.
+p10,long_context,distilgpt2,mps,42,64,1.0712642079452053,59.74249818609974,"Large language models are often deployed using inference servers that support batching, caching, and optimized execution backends. These choices affect memory usage, latency, and cost. Explain why benchmarking different serving stacks matters.","Large language models are often deployed using inference servers that support batching, caching, and optimized execution backends. These choices affect memory usage, latency, and cost. Explain why benchmarking different serving stacks matters.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -649,7 +1289,71 @@ p10,long_context,distilgpt2,mps,42,64,1.2787127080373466,50.05033546450904,"Larg
 
 
 "
-p11,short_qa,distilgpt2,mps,10,64,1.0314238750142977,62.05014402940094,What is the difference between RAM and VRAM?,"What is the difference between RAM and VRAM?
+p11,short_qa,distilgpt2,mps,10,64,1.0193488750373945,62.785177447370195,What is the difference between RAM and VRAM?,"What is the difference between RAM and VRAM?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -714,7 +1418,71 @@ p11,short_qa,distilgpt2,mps,10,64,1.0314238750142977,62.05014402940094,What is t
 
 
 "
-p12,coding,distilgpt2,mps,11,64,1.2410830840235576,51.56786102709074,Write a Python function that merges two sorted arrays.,"Write a Python function that merges two sorted arrays.
+p12,coding,distilgpt2,mps,11,64,1.1591590830357745,55.21243885902829,Write a Python function that merges two sorted arrays.,"Write a Python function that merges two sorted arrays.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -779,7 +1547,71 @@ p12,coding,distilgpt2,mps,11,64,1.2410830840235576,51.56786102709074,Write a Pyt
 
 
 "
-p13,reasoning,distilgpt2,mps,16,64,1.10302487493027,58.02226355416136,"If latency drops from 200 ms to 120 ms, what is the percentage reduction?","If latency drops from 200 ms to 120 ms, what is the percentage reduction?
+p13,reasoning,distilgpt2,mps,16,64,1.1537855829810724,55.46957852830954,"If latency drops from 200 ms to 120 ms, what is the percentage reduction?","If latency drops from 200 ms to 120 ms, what is the percentage reduction?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -844,7 +1676,71 @@ p13,reasoning,distilgpt2,mps,16,64,1.10302487493027,58.02226355416136,"If latenc
 
 
 "
-p14,summarization,distilgpt2,mps,19,64,1.0028894590213895,63.81560741744222,Summarize this in one sentence: Containerization helps package applications and dependencies consistently across environments.,"Summarize this in one sentence: Containerization helps package applications and dependencies consistently across environments.
+p14,summarization,distilgpt2,mps,19,64,1.1790873339632526,54.279270208829686,Summarize this in one sentence: Containerization helps package applications and dependencies consistently across environments.,"Summarize this in one sentence: Containerization helps package applications and dependencies consistently across environments.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -909,7 +1805,71 @@ p14,summarization,distilgpt2,mps,19,64,1.0028894590213895,63.81560741744222,Summ
 
 
 "
-p15,long_context,distilgpt2,mps,49,64,1.052728500100784,60.79440234958292,"Model serving frameworks like vLLM and TensorRT-LLM aim to improve efficiency for large language model inference by optimizing memory management, batching, and execution. Explain what kinds of improvements an engineer might look for when comparing serving frameworks.","Model serving frameworks like vLLM and TensorRT-LLM aim to improve efficiency for large language model inference by optimizing memory management, batching, and execution. Explain what kinds of improvements an engineer might look for when comparing serving frameworks.
+p15,long_context,distilgpt2,mps,49,64,1.0437357920454815,61.318199958032245,"Model serving frameworks like vLLM and TensorRT-LLM aim to improve efficiency for large language model inference by optimizing memory management, batching, and execution. Explain what kinds of improvements an engineer might look for when comparing serving frameworks.","Model serving frameworks like vLLM and TensorRT-LLM aim to improve efficiency for large language model inference by optimizing memory management, batching, and execution. Explain what kinds of improvements an engineer might look for when comparing serving frameworks.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -974,7 +1934,71 @@ p15,long_context,distilgpt2,mps,49,64,1.052728500100784,60.79440234958292,"Model
 
 
 "
-p16,short_qa,distilgpt2,mps,6,64,1.6770127080380917,38.16309780673785,What is a transformer model?,"What is a transformer model?
+p16,short_qa,distilgpt2,mps,6,64,1.2369664160069078,51.7394806939064,What is a transformer model?,"What is a transformer model?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -1039,7 +2063,71 @@ p16,short_qa,distilgpt2,mps,6,64,1.6770127080380917,38.16309780673785,What is a 
 
 
 "
-p17,coding,distilgpt2,mps,16,64,1.0953074159333482,58.43108434125177,Write Python code to find the maximum subarray sum using Kadane's algorithm.,"Write Python code to find the maximum subarray sum using Kadane's algorithm.
+p17,coding,distilgpt2,mps,16,64,1.1153071250300854,57.38329699837038,Write Python code to find the maximum subarray sum using Kadane's algorithm.,"Write Python code to find the maximum subarray sum using Kadane's algorithm.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -1104,7 +2192,71 @@ p17,coding,distilgpt2,mps,16,64,1.0953074159333482,58.43108434125177,Write Pytho
 
 
 "
-p18,reasoning,distilgpt2,mps,23,64,1.0780757500324398,59.36503070222497,"If one server handles 50 requests per second and another handles 80, how much higher is the second server's throughput?","If one server handles 50 requests per second and another handles 80, how much higher is the second server's throughput?
+p18,reasoning,distilgpt2,mps,23,64,1.068080083001405,59.92060054163168,"If one server handles 50 requests per second and another handles 80, how much higher is the second server's throughput?","If one server handles 50 requests per second and another handles 80, how much higher is the second server's throughput?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -1169,7 +2321,71 @@ p18,reasoning,distilgpt2,mps,23,64,1.0780757500324398,59.36503070222497,"If one 
 
 
 "
-p19,summarization,distilgpt2,mps,29,64,0.9635951250093058,66.41793668204987,"Summarize this: Profiling tools help engineers identify compute bottlenecks, memory inefficiencies, and kernel-level slowdowns.","Summarize this: Profiling tools help engineers identify compute bottlenecks, memory inefficiencies, and kernel-level slowdowns.
+p19,summarization,distilgpt2,mps,29,64,1.0962752089835703,58.37950131093328,"Summarize this: Profiling tools help engineers identify compute bottlenecks, memory inefficiencies, and kernel-level slowdowns.","Summarize this: Profiling tools help engineers identify compute bottlenecks, memory inefficiencies, and kernel-level slowdowns.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 
@@ -1234,7 +2450,71 @@ p19,summarization,distilgpt2,mps,29,64,0.9635951250093058,66.41793668204987,"Sum
 
 
 "
-p20,long_context,distilgpt2,mps,40,64,0.9632411249913275,66.44234588777158,"Deep learning deployment often requires balancing accuracy, latency, memory, and cost. Teams may compare multiple serving stacks to understand which one is best suited for production workloads. Explain why these tradeoffs matter.","Deep learning deployment often requires balancing accuracy, latency, memory, and cost. Teams may compare multiple serving stacks to understand which one is best suited for production workloads. Explain why these tradeoffs matter.
+p20,long_context,distilgpt2,mps,40,64,1.1607705830829218,55.13578732329749,"Deep learning deployment often requires balancing accuracy, latency, memory, and cost. Teams may compare multiple serving stacks to understand which one is best suited for production workloads. Explain why these tradeoffs matter.","Deep learning deployment often requires balancing accuracy, latency, memory, and cost. Teams may compare multiple serving stacks to understand which one is best suited for production workloads. Explain why these tradeoffs matter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+","
 
 
 

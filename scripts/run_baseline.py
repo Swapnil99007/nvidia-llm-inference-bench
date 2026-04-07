@@ -83,8 +83,11 @@ def main():
         latency_sec = end_time - start_time
 
         generated_ids = outputs[0]
-        output_token_count = generated_ids.shape[0] - input_token_count
+        new_token_ids = generated_ids[input_token_count:]
+        output_token_count = len(new_token_ids)
+
         output_text = tokenizer.decode(generated_ids, skip_special_tokens=True)
+        generated_only_text = tokenizer.decode(new_token_ids, skip_special_tokens=True)
 
         tokens_per_sec = (
             output_token_count / latency_sec if latency_sec > 0 else None
@@ -100,7 +103,8 @@ def main():
             "latency_sec": latency_sec,
             "tokens_per_sec": tokens_per_sec,
             "prompt_text": prompt_text,
-            "generated_text": output_text
+            "generated_text": output_text,
+            "generated_only_text": generated_only_text
         })
 
         print(
