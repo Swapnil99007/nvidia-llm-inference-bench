@@ -30,3 +30,32 @@ Establish a reproducible benchmark harness that can later be extended to compare
 - Logged per-prompt latency and tokens/sec to structured CSV output
 - Generated baseline plots for latency and throughput analysis
 - Established a reusable workflow that can be extended to vLLM and TensorRT-LLM in later phases
+
+
+## Phase 2: Config-Driven Benchmark Framework
+
+Phase 2 refactors the initial local benchmark into a reusable, config-driven pipeline.
+
+### Improvements over Phase 1
+- Added YAML-based model and benchmark configuration
+- Added timestamped run directories for reproducibility
+- Logged run metadata to JSON
+- Added aggregate summary generation by setting and category
+- Extended plotting pipeline for structured per-run analysis
+
+### Current benchmark dimensions
+- Model: `distilgpt2`
+- Settings:
+  - short output (`max_new_tokens=32`)
+  - default output (`max_new_tokens=64`)
+  - long output (`max_new_tokens=96`)
+
+### Output artifacts
+Each run now creates:
+- `benchmark_results.csv`
+- `run_metadata.json`
+- `summary_by_setting_and_category.csv`
+- per-run plots under `results/figures/<run_dir>/`
+
+### Purpose
+This framework establishes the reusable benchmark harness that will later be extended to compare alternative inference engines such as vLLM and TensorRT-LLM.
