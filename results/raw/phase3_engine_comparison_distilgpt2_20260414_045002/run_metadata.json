@@ -1,0 +1,12 @@
+{
+  "run_name": "phase3_engine_comparison_distilgpt2",
+  "run_timestamp": "20260414_045002",
+  "engine_name": "hf_transformers",
+  "model_name": "distilgpt2",
+  "device": "cpu",
+  "prompt_file": "prompts/prompts.jsonl",
+  "warmup_runs": 2,
+  "do_sample": false,
+  "num_prompts": 20,
+  "num_settings": 3
+}
