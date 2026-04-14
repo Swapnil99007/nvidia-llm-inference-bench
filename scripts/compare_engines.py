@@ -10,8 +10,8 @@ def latest_run(pattern: str) -> Path:
 
 
 def main():
-    hf_run = latest_run("phase2_baseline_distilgpt2_*")
-    vllm_run = latest_run("phase2_baseline_distilgpt2_vllm_*")
+    hf_run = latest_run("phase3_engine_comparison_distilgpt2_*")
+    vllm_run = latest_run("phase3_engine_comparison_distilgpt2_vllm_*")
 
     hf_file = hf_run / "benchmark_results.csv"
     vllm_file = vllm_run / "benchmark_results.csv"

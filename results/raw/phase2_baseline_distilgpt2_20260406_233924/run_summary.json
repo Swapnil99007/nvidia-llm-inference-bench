@@ -1,0 +1,15 @@
+{
+  "run_name": "phase2_baseline_distilgpt2",
+  "run_timestamp": "20260406_233924",
+  "engine_name": "hf_transformers",
+  "model_name": "distilgpt2",
+  "device": "mps",
+  "num_prompts": 20,
+  "num_settings": 3,
+  "avg_latency_sec": 1.100134037596096,
+  "min_latency_sec": 0.45831204194109887,
+  "max_latency_sec": 1.7609418330248445,
+  "avg_tokens_per_sec": 58.570131642481776,
+  "min_tokens_per_sec": 44.47723869136738,
+  "max_tokens_per_sec": 69.82142529895071
+}
