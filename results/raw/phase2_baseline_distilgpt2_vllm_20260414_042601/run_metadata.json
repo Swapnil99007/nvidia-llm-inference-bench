@@ -1,0 +1,11 @@
+{
+  "run_name": "phase2_baseline_distilgpt2_vllm",
+  "run_timestamp": "20260414_042601",
+  "engine_name": "vllm",
+  "model_name": "distilgpt2",
+  "prompt_file": "prompts/prompts.jsonl",
+  "num_prompts": 20,
+  "num_settings": 3,
+  "host": "127.0.0.1",
+  "port": 8000
+}
