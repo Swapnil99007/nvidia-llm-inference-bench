@@ -1,8 +1,7 @@
 .venv/
-.venv_vllm
+.venv_vllm/
+.venv_cloud/
 __pycache__/
-*.pyc
 .DS_Store
 results/raw/
 results/figures/
-results/raw/*.csv
