@@ -1,4 +1,4 @@
-run_name: phase3_engine_comparison_distilgpt2
+run_name: phase3_engine_comparison_qwen25_7b_instruct
 prompt_file: prompts/prompts.jsonl
 
 settings:

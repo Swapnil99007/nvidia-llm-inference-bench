@@ -1,4 +1,4 @@
-model_name: distilgpt2
+model_name: Qwen/Qwen2.5-7B-Instruct
 max_new_tokens: 64
 warmup_runs: 2
 device_preference: auto
