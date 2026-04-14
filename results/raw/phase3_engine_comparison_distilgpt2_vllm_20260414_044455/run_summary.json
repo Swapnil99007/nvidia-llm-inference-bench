@@ -1,0 +1,14 @@
+{
+  "run_name": "phase3_engine_comparison_distilgpt2_vllm",
+  "run_timestamp": "20260414_044455",
+  "engine_name": "vllm",
+  "model_name": "distilgpt2",
+  "num_prompts": 20,
+  "num_settings": 3,
+  "avg_latency_sec": 0.08462760606780648,
+  "min_latency_sec": 0.04516982100903988,
+  "max_latency_sec": 0.12426228262484074,
+  "avg_tokens_per_sec": 13.676257646270463,
+  "min_tokens_per_sec": 8.047494210444306,
+  "max_tokens_per_sec": 22.138675284984394
+}
