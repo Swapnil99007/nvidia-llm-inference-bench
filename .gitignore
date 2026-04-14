@@ -1,6 +1,6 @@
 .venv/
 .venv_vllm/
-.venv_cloud/
+venv_cloud/
 __pycache__/
 .DS_Store
 results/raw/
