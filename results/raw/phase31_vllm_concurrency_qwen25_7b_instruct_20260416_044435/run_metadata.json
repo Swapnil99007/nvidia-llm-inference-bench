@@ -1,0 +1,14 @@
+{
+  "run_name": "phase31_vllm_concurrency_qwen25_7b_instruct",
+  "run_timestamp": "20260416_044435",
+  "engine_name": "vllm",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "concurrency_levels": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "requests_per_level": 8,
+  "max_tokens": 64
+}
