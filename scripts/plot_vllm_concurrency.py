@@ -5,7 +5,6 @@ import pandas as pd
 
 
 RAW_DIR = Path("results/raw")
-FIGURE_DIR = Path("results/figures/vllm_concurrency")
 
 
 def latest_run(pattern: str) -> Path:
@@ -18,6 +17,7 @@ def latest_run(pattern: str) -> Path:
 def main():
     run_dir = latest_run("phase31_vllm_concurrency_qwen25_7b_instruct_*")
     summary_file = run_dir / "concurrency_summary.csv"
+    FIGURE_DIR = Path("results/figures") / run_dir.name
 
     FIGURE_DIR.mkdir(parents=True, exist_ok=True)
 
