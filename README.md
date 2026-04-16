@@ -217,17 +217,20 @@ Concurrency levels tested:
 - 4
 - 8
 
+Requests per level:
+- 16
+
 Key observations:
-- average latency remained stable across all tested concurrency levels, staying near 1.25 seconds
-- average throughput remained close to 51 tokens/sec across all levels
-- concurrency levels 2 and 4 produced slightly better throughput than 1 and 8
-- no major latency blow-up was observed at concurrency 8, indicating that vLLM handled moderate parallel request load efficiently
+- average latency remained almost flat from concurrency levels 1 to 4
+- latency increased only slightly at concurrency 8
+- average output length remained stable across all concurrency levels
+- the results suggest that vLLM handled moderate parallel request load efficiently without a major latency blow-up
 
 Output artifacts:
 - `results/raw/phase31_vllm_concurrency_qwen25_7b_instruct_<timestamp>/benchmark_results.csv`
 - `results/raw/phase31_vllm_concurrency_qwen25_7b_instruct_<timestamp>/concurrency_summary.csv`
-- `results/figures/vllm_concurrency/latency_vs_concurrency.png`
-- `results/figures/vllm_concurrency/tokens_per_sec_vs_concurrency.png`
+- `results/figures/<run_dir>/latency_vs_concurrency.png`
+- `results/figures/<run_dir>/tokens_per_sec_vs_concurrency.png`
 
 ---
 
