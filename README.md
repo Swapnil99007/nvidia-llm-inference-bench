@@ -207,6 +207,28 @@ Phase 3 shows that this project can now:
 - generate artifacts suitable for project documentation and future resume bullets
 
 
+### Phase 3.1: vLLM Concurrency Benchmark
+
+To extend the single-request engine comparison, a concurrency benchmark was added for the vLLM serving path using `Qwen/Qwen2.5-7B-Instruct` on an RTX 3090.
+
+Concurrency levels tested:
+- 1
+- 2
+- 4
+- 8
+
+Key observations:
+- average latency remained stable across all tested concurrency levels, staying near 1.25 seconds
+- average throughput remained close to 51 tokens/sec across all levels
+- concurrency levels 2 and 4 produced slightly better throughput than 1 and 8
+- no major latency blow-up was observed at concurrency 8, indicating that vLLM handled moderate parallel request load efficiently
+
+Output artifacts:
+- `results/raw/phase31_vllm_concurrency_qwen25_7b_instruct_<timestamp>/benchmark_results.csv`
+- `results/raw/phase31_vllm_concurrency_qwen25_7b_instruct_<timestamp>/concurrency_summary.csv`
+- `results/figures/vllm_concurrency/latency_vs_concurrency.png`
+- `results/figures/vllm_concurrency/tokens_per_sec_vs_concurrency.png`
+
 ---
 
 ## Current Status
