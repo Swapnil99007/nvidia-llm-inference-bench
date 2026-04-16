@@ -48,6 +48,8 @@ def main():
     model_name = model_cfg["model_name"]
     warmup_runs = model_cfg["warmup_runs"]
     device = get_device(model_cfg["device_preference"])
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
     do_sample = model_cfg["do_sample"]
 
     run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -58,12 +60,17 @@ def main():
     print(f"Loading model: {model_name}")
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModelForCausalLM.from_pretrained(model_name)
+
+    model = AutoModelForCausalLM.from_pretrained(
+        model_name,
+        torch_dtype=torch.float16,
+        low_cpu_mem_usage=True,
+        device_map="auto",
+    )
 
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    model.to(device)
     model.eval()
 
     prompts = load_prompts(prompt_file)

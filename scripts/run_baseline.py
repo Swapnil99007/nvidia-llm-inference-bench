@@ -40,7 +40,7 @@ def main():
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    model.to(device)
+    # model.to(device)
     model.eval()
 
     prompts = load_prompts(PROMPTS_FILE)
