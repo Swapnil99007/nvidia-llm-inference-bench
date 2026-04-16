@@ -7,6 +7,8 @@ import pandas as pd
 import requests
 import yaml
 
+from transformers import AutoTokenizer
+
 
 MODEL_CONFIG_PATH = Path("configs/model_config.yaml")
 BENCHMARK_CONFIG_PATH = Path("configs/benchmark_matrix.yaml")
@@ -31,9 +33,6 @@ def load_prompts(path: Path):
     return prompts
 
 
-def estimate_token_count(text: str) -> int:
-    return max(1, len(text.split()))
-
 
 def generate_with_vllm(prompt_text: str, model_name: str, max_tokens: int):
     url = f"http://{VLLM_HOST}:{VLLM_PORT}/v1/completions"
@@ -56,9 +55,10 @@ def generate_with_vllm(prompt_text: str, model_name: str, max_tokens: int):
     data = response.json()
 
     generated_text = data["choices"][0]["text"]
+    finish_reason = data["choices"][0].get("finish_reason")
     latency_sec = end_time - start_time
 
-    return generated_text, latency_sec
+    return generated_text, latency_sec, finish_reason
 
 
 def main():
@@ -69,6 +69,8 @@ def main():
     prompt_file = Path(bench_cfg["prompt_file"])
     settings = bench_cfg["settings"]
     model_name = model_cfg["model_name"]
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     run_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     run_dir = RESULTS_BASE_DIR / f"{run_name}_{run_timestamp}"
@@ -88,14 +90,14 @@ def main():
             category = item["category"]
             prompt_text = item["prompt"]
 
-            generated_only_text, latency_sec = generate_with_vllm(
+            generated_only_text, latency_sec, finish_reason = generate_with_vllm(
                 prompt_text=prompt_text,
                 model_name=model_name,
                 max_tokens=max_new_tokens,
             )
 
-            input_token_count = estimate_token_count(prompt_text)
-            output_token_count = estimate_token_count(generated_only_text)
+            input_token_count = len(tokenizer(prompt_text, add_special_tokens=False)["input_ids"])
+            output_token_count = len(tokenizer(generated_only_text, add_special_tokens=False)["input_ids"])
             tokens_per_sec = output_token_count / latency_sec if latency_sec > 0 else None
 
             row = {
@@ -115,6 +117,7 @@ def main():
                 "prompt_text": prompt_text,
                 "output_text": prompt_text + generated_only_text,
                 "generated_only_text": generated_only_text,
+                "finish_reason": finish_reason,
             }
             all_results.append(row)
 
