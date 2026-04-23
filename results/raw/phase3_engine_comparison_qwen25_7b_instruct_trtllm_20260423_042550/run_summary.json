@@ -1,0 +1,14 @@
+{
+  "run_name": "phase3_engine_comparison_qwen25_7b_instruct_trtllm",
+  "run_timestamp": "20260423_042550",
+  "engine_name": "tensorrt_llm",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "num_prompts": 20,
+  "num_settings": 3,
+  "avg_latency_sec": 1.2231386521831156,
+  "min_latency_sec": 0.47570598032325506,
+  "max_latency_sec": 1.9015424624085426,
+  "avg_tokens_per_sec": 50.51308146243584,
+  "min_tokens_per_sec": 48.212687198109826,
+  "max_tokens_per_sec": 50.87579681695582
+}

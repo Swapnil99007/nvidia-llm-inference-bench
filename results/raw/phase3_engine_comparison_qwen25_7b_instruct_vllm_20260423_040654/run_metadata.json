@@ -1,0 +1,11 @@
+{
+  "run_name": "phase3_engine_comparison_qwen25_7b_instruct_vllm",
+  "run_timestamp": "20260423_040654",
+  "engine_name": "vllm",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "prompt_file": "prompts/prompts.jsonl",
+  "num_prompts": 20,
+  "num_settings": 3,
+  "host": "127.0.0.1",
+  "port": 8000
+}

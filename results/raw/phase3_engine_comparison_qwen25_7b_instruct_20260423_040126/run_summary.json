@@ -1,0 +1,15 @@
+{
+  "run_name": "phase3_engine_comparison_qwen25_7b_instruct",
+  "run_timestamp": "20260423_040126",
+  "engine_name": "hf_transformers",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "device": "cuda",
+  "num_prompts": 20,
+  "num_settings": 3,
+  "avg_latency_sec": 1.4767319582713148,
+  "min_latency_sec": 0.5603430289775133,
+  "max_latency_sec": 2.7948324270546436,
+  "avg_tokens_per_sec": 42.11865804518411,
+  "min_tokens_per_sec": 34.3491076855618,
+  "max_tokens_per_sec": 44.42952985205731
+}

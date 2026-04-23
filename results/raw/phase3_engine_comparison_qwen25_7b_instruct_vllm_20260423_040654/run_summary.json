@@ -1,0 +1,14 @@
+{
+  "run_name": "phase3_engine_comparison_qwen25_7b_instruct_vllm",
+  "run_timestamp": "20260423_040654",
+  "engine_name": "vllm",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "num_prompts": 20,
+  "num_settings": 3,
+  "avg_latency_sec": 1.2382162298386297,
+  "min_latency_sec": 0.4813030809164047,
+  "max_latency_sec": 1.916414400562644,
+  "avg_tokens_per_sec": 49.581396229263255,
+  "min_tokens_per_sec": 25.05025316477291,
+  "max_tokens_per_sec": 50.469151251872006
+}
