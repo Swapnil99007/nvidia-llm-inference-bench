@@ -234,43 +234,128 @@ Output artifacts:
 
 ---
 
+## Phase 4: TensorRT-LLM Integration and Full Engine Comparison
+
+Phase 4 extends the benchmarking framework to include NVIDIA TensorRT-LLM, enabling a full comparison across three inference engines:
+
+- `hf_transformers`
+- `vllm`
+- `tensorrt_llm`
+
+### Hardware and Setup
+- GPU: NVIDIA RTX 3090
+- Model: `Qwen/Qwen2.5-7B-Instruct`
+- Same prompt set and benchmark configuration as Phase 3
+
+### Benchmark Scope
+- Output lengths:
+  - short (32 tokens)
+  - default (64 tokens)
+  - long (96 tokens)
+- Prompt categories:
+  - coding
+  - reasoning
+  - summarization
+  - short QA
+  - long-context
+
+### Key Results
+
+#### Throughput (tokens/sec)
+
+| Engine        | Short | Default | Long |
+|--------------|------|--------|------|
+| HF           | ~42  | ~42–43 | ~40–43 |
+| vLLM         | ~48–50 | ~50.3 | ~50.4 |
+| TensorRT-LLM | ~50  | ~50.7 | ~50.7 |
+
+#### Latency
+
+| Engine        | Short | Default | Long |
+|--------------|------|--------|------|
+| HF           | ~0.74s | ~1.50s | ~2.2–2.4s |
+| vLLM         | ~0.64–0.80s | ~1.27s | ~1.90s |
+| TensorRT-LLM | ~0.63s | ~1.26s | ~1.89s |
+
+### Observations
+
+- TensorRT-LLM achieves the highest and most consistent throughput across all workloads
+- vLLM closely matches TensorRT performance but shows instability in short-output scenarios
+- Hugging Face baseline is consistently slower and scales poorly with output length
+- TensorRT-LLM demonstrates near-flat throughput across categories, indicating strong GPU kernel optimization
+
+### Insights
+
+- TensorRT-LLM benefits from kernel fusion and optimized GPU execution
+- vLLM leverages KV cache and batching but introduces serving overhead
+- Hugging Face lacks serving optimizations, resulting in lower efficiency
+
+### Output Artifacts
+
+- `results/raw/latest_engine_comparison_summary.csv`
+- `results/figures/engine_comparison/*.png`
+
+### What Phase 4 Demonstrates
+
+Phase 4 elevates the project into a full ML systems benchmarking study by:
+
+- comparing three inference stacks under identical conditions
+- analyzing system-level performance differences
+- producing reproducible, quantitative results
+
 ## Current Status
 
 The project currently supports:
 - local baseline benchmarking
 - config-driven benchmark execution
 - structured metadata logging
-- Hugging Face vs vLLM comparison on a modern instruct model
+- Hugging Face vs vLLM vs TensorRT-LLM comparison on a modern instruct model
 - per-run summaries and comparison plots
-
-At this stage, the project is already a credible ML systems benchmarking project.
-
 
 ---
 
 ## Limitations
 
-The current version still has several limitations:
-- benchmarking is currently focused on single-request inference behavior rather than full concurrency/load testing
-- the comparison is between direct Transformers inference and a server-based vLLM path, so it reflects system-level serving differences rather than only kernel-level execution differences
-- the current setup uses one GPU and one model family
-- TensorRT-LLM and Triton are planned but not yet integrated
-
-These are intentional next steps rather than flaws in the project.
-
+TensorRT-LLM is integrated for single-request benchmarking, but:
+- concurrency benchmarking for TensorRT-LLM is not yet implemented
+- Triton Inference Server integration is pending
 
 ---
 
 ## Next Planned Improvements
 
-Planned upgrades include:
-- concurrency benchmarking
-- request-rate / load testing
-- deeper vLLM serving analysis
-- TensorRT-LLM integration
-- Triton Inference Server deployment
-- expanded benchmark dimensions for prompt length and serving load
+With Phase 4 completing a full multi-engine comparison (HF vs vLLM vs TensorRT-LLM), the next steps focus on scaling this project toward production-grade inference benchmarking.
 
+Planned upgrades include:
+
+- TensorRT-LLM concurrency benchmarking
+  - evaluate multi-request performance under parallel load
+  - compare scaling behavior against vLLM
+
+- request-rate / load testing
+  - simulate real-world traffic patterns (QPS-based benchmarking)
+  - measure latency degradation under sustained load
+
+- Triton Inference Server integration
+  - deploy TensorRT-LLM via Triton
+  - benchmark production-style serving pipelines
+
+- end-to-end serving system comparison
+  - vLLM vs Triton vs custom pipelines
+  - include batching, scheduling, and queueing behavior
+
+- GPU utilization and memory profiling
+  - analyze VRAM usage across engines
+  - correlate memory efficiency with throughput
+
+- expanded benchmark dimensions
+  - longer context windows (8k, 16k, 32k)
+  - larger models (13B+)
+  - mixed workload scenarios
+
+- stability and tail-latency analysis
+  - measure P95/P99 latency
+  - identify jitter and variance across engines
 
 ---
 
@@ -278,11 +363,29 @@ Planned upgrades include:
 
 This project started as a lightweight local benchmarking workflow and has evolved into a reproducible inference benchmarking framework for modern LLM serving systems.
 
-The most important result so far is the Phase 3 comparison:
+Across four phases, the project progressed from:
+- a local baseline (Phase 1)
+- to a config-driven benchmarking framework (Phase 2)
+- to serving-system comparison with vLLM (Phase 3)
+- to a full multi-engine GPU benchmark including TensorRT-LLM (Phase 4)
+
+The most important result is the Phase 4 comparison:
+
 - same model
 - same prompts
 - same hardware
-- two different inference engines
-- measurable differences in latency and throughput
+- three different inference engines
+- clear, measurable differences in latency, throughput, and stability
 
-That makes the project much closer to real-world ML systems engineering work and provides a strong foundation for future NVIDIA-aligned improvements.
+Key findings:
+- TensorRT-LLM achieves the highest and most consistent throughput (~50 tok/s)
+- vLLM closely matches TensorRT performance but introduces occasional instability in small workloads
+- Hugging Face Transformers baseline is consistently slower (~15–20%) and scales poorly with output length
+
+This project now reflects real-world ML systems engineering concerns:
+- GPU efficiency
+- inference optimization
+- serving architecture trade-offs
+- reproducible benchmarking workflows
+
+It provides a strong foundation for further NVIDIA-aligned work in high-performance inference systems, including Triton deployment and large-scale serving optimization.
