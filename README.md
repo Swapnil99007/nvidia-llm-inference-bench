@@ -1,25 +1,25 @@
 # LLM Inference Optimization and Benchmarking on NVIDIA GPUs
 
-This project benchmarks and compares different large language model inference paths, starting from a lightweight local baseline and evolving into a reproducible benchmarking framework for modern LLM serving systems.
+A reproducible benchmarking framework for comparing modern LLM inference engines across latency, throughput, and system-level behavior.
 
-The goal of the project is to study how different inference stacks behave under controlled workloads, with a focus on:
-- latency
-- throughput
-- output length consistency
-- serving-system behavior
-- reproducibility of benchmarking workflows
+## Key Result (Phase 4)
 
-The project currently compares:
-- a direct Hugging Face Transformers baseline
-- a vLLM server-based inference workflow
+On Qwen2.5-7B-Instruct (RTX 3090):
 
-and is designed to be extended later to:
-- concurrency/load testing
-- TensorRT-LLM
-- Triton Inference Server
-- larger-scale NVIDIA GPU benchmarking
+- **TensorRT-LLM** → ~50.7 tok/s (best, most stable)
+- **vLLM** → ~50 tok/s (high performance, minor instability)
+- **Hugging Face Transformers** → ~42 tok/s (baseline)
+
+~**20% throughput improvement** and **lower latency** using optimized inference engines.
 
 ---
+
+## What this project demonstrates
+
+- End-to-end LLM benchmarking pipeline
+- GPU inference optimization
+- Serving system comparison (HF vs vLLM vs TensorRT)
+- Reproducible ML systems experimentation
 
 ## Repository Structure
 
@@ -302,6 +302,16 @@ Phase 4 elevates the project into a full ML systems benchmarking study by:
 - comparing three inference stacks under identical conditions
 - analyzing system-level performance differences
 - producing reproducible, quantitative results
+
+## 📊 Example Results
+
+### Latency Comparison
+
+![Latency](results/figures/engine_comparison/latency_comparison_default_output.png)
+
+### Throughput Comparison
+
+![Throughput](results/figures/engine_comparison/throughput_comparison_default_output.png)
 
 ## Current Status
 
