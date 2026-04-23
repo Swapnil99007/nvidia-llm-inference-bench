@@ -24,7 +24,7 @@ VLLM_PORT = 8000
 VLLM_API_KEY = "token-abc123"
 ENGINE_NAME = "vllm"
 
-QPS_LEVELS = [1, 2, 5, 10, 15, 20]
+QPS_LEVELS = [1, 2, 5, 10, 15, 20, 25, 30]
 TEST_DURATION_SEC = 60
 SETTING_LABEL = "default_output"
 
