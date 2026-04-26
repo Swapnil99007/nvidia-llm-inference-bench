@@ -1,0 +1,24 @@
+{
+  "run_name": "phase5_vllm_qps",
+  "run_timestamp": "20260426_072450",
+  "engine_name": "vllm",
+  "model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "prompt_file": "prompts/prompts.jsonl",
+  "setting_label": "default_output",
+  "max_new_tokens": 64,
+  "qps_levels": [
+    1,
+    2,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    40,
+    50
+  ],
+  "test_duration_sec": 60,
+  "host": "127.0.0.1",
+  "port": 8000
+}
