@@ -313,13 +313,149 @@ Phase 4 elevates the project into a full ML systems benchmarking study by:
 
 ![Throughput](results/figures/engine_comparison/throughput_comparison_default_output.png)
 
+
+## Phase 5A: Production-Scale Load Testing (QPS-Based Benchmarking)
+
+Phase 5 extends the project from single-request benchmarking to **production-style load testing**, simulating sustained user traffic using a QPS (queries-per-second) model.
+
+### Objective
+
+Evaluate how a modern LLM serving system behaves under continuous load:
+
+* scalability
+* latency stability
+* tail latency (P95/P99)
+* system saturation behavior
+
+### Setup
+
+* Engine: `vllm`
+* Model: `Qwen/Qwen2.5-7B-Instruct`
+* GPU: NVIDIA RTX 3090 (24 GB VRAM)
+* Output length: `default_output` (64 tokens)
+* Test duration: 60 seconds per QPS level
+
+### QPS Levels Tested
+
+```
+[1, 2, 5, 10, 15, 20, 25, 30, 40, 50]
+```
+
+### Metrics Collected
+
+* achieved requests/sec
+* average latency
+* P50 / P95 / P99 latency
+* success rate
+* tokens per second
+
+---
+
+## Phase 5A Results
+
+### Throughput Scaling
+
+| Target QPS | Achieved QPS |
+| ---------- | ------------ |
+| 1          | ~0.99        |
+| 10         | ~9.80        |
+| 20         | ~19.59       |
+| 30         | ~29.36       |
+| 40         | ~33.21       |
+| 50         | ~39.51       |
+
+### Latency Behavior
+
+| QPS | Avg Latency | P95    | P99    |
+| --- | ----------- | ------ | ------ |
+| 1   | ~1.26s      | ~1.30s | ~1.60s |
+| 10  | ~1.28s      | ~1.33s | ~1.33s |
+| 20  | ~1.33s      | ~1.38s | ~1.39s |
+| 30  | ~1.45s      | ~1.50s | ~1.51s |
+| 40  | ~2.35s      | ~2.44s | ~2.47s |
+| 50  | ~2.47s      | ~2.56s | ~2.60s |
+
+### Throughput Efficiency
+
+| QPS | Tokens/sec |
+| --- | ---------- |
+| 1   | ~49 tok/s  |
+| 20  | ~46 tok/s  |
+| 30  | ~42 tok/s  |
+| 40  | ~26 tok/s  |
+| 50  | ~25 tok/s  |
+
+---
+
+## Key Observations
+
+* vLLM achieved **near-linear scaling up to ~30 QPS**
+* latency remained stable (~1.3–1.5s) with tight P95/P99 bounds
+* success rate remained **100% across all load levels**
+* beyond ~30 QPS:
+
+  * achieved throughput falls below target
+  * latency increases sharply
+  * token throughput drops significantly (~42 → ~26 tok/s)
+
+---
+
+## System-Level Insights
+
+* Efficient batching and KV-cache utilization enable stable scaling in low-to-medium load regimes
+* GPU utilization increases with QPS, improving efficiency up to a point
+* Beyond ~30 QPS, the system enters **saturation**, where:
+
+  * scheduling overhead increases
+  * GPU becomes fully utilized
+  * latency grows due to internal queueing
+* Despite saturation, the system remains stable without request failures
+
+---
+
+## What Phase 5A Demonstrates
+
+Phase 5A transforms the project into a **production-level inference study** by:
+
+* simulating real-world traffic patterns using QPS-based load
+* identifying the **capacity limit (~30 QPS)** of a single-GPU deployment
+* analyzing latency behavior under sustained load
+* demonstrating system stability and degradation characteristics
+
+## Phase 5A Visualizations
+
+These plots illustrate the transition from linear scaling to system saturation under increasing QPS load.
+
+### Average Latency vs QPS
+
+![Average Latency vs QPS](results/figures/phase5/avg_latency_vs_qps.png)
+
+### P95 Latency vs QPS
+
+![P95 Latency vs QPS](results/figures/phase5/p95_latency_vs_qps.png)
+
+### P99 Latency vs QPS
+
+![P99 Latency vs QPS](results/figures/phase5/p99_latency_vs_qps.png)
+
+### Achieved Throughput vs QPS
+
+![Throughput vs QPS](results/figures/phase5/throughput_vs_qps.png)
+
+### Success Rate vs QPS
+
+![Success Rate vs QPS](results/figures/phase5/success_rate_vs_qps.png)
+
+
 ## Current Status
 
 The project currently supports:
 - local baseline benchmarking
 - config-driven benchmark execution
 - structured metadata logging
-- Hugging Face vs vLLM vs TensorRT-LLM comparison on a modern instruct model
+- Hugging Face vs vLLM vs TensorRT-LLM comparison
+- production-scale QPS load testing (Phase 5A)
+- system capacity and saturation analysis
 - per-run summaries and comparison plots
 
 ---
@@ -334,38 +470,37 @@ TensorRT-LLM is integrated for single-request benchmarking, but:
 
 ## Next Planned Improvements
 
-With Phase 4 completing a full multi-engine comparison (HF vs vLLM vs TensorRT-LLM), the next steps focus on scaling this project toward production-grade inference benchmarking.
+With Phase 5A introducing production-scale load testing, the next steps focus on deeper system-level analysis and production deployment.
 
 Planned upgrades include:
 
-- TensorRT-LLM concurrency benchmarking
-  - evaluate multi-request performance under parallel load
-  - compare scaling behavior against vLLM
+- multi-engine load testing
+  - compare vLLM vs Hugging Face under QPS load
+  - evaluate scaling differences across inference engines
 
-- request-rate / load testing
-  - simulate real-world traffic patterns (QPS-based benchmarking)
-  - measure latency degradation under sustained load
+- TensorRT-LLM load testing
+  - extend QPS benchmarking to TensorRT
+  - compare saturation behavior against vLLM
 
 - Triton Inference Server integration
   - deploy TensorRT-LLM via Triton
-  - benchmark production-style serving pipelines
+  - benchmark production-grade serving pipelines
 
-- end-to-end serving system comparison
-  - vLLM vs Triton vs custom pipelines
-  - include batching, scheduling, and queueing behavior
+- dynamic batching experiments
+  - analyze latency vs throughput trade-offs
+  - tune batch sizes under load
 
-- GPU utilization and memory profiling
-  - analyze VRAM usage across engines
-  - correlate memory efficiency with throughput
+- GPU utilization profiling
+  - correlate utilization, memory usage, and throughput
+  - identify efficiency bottlenecks
 
-- expanded benchmark dimensions
-  - longer context windows (8k, 16k, 32k)
-  - larger models (13B+)
-  - mixed workload scenarios
+- tail latency analysis
+  - deeper analysis of P95/P99 under high load
+  - identify jitter and scheduling effects
 
-- stability and tail-latency analysis
-  - measure P95/P99 latency
-  - identify jitter and variance across engines
+- extended scaling experiments
+  - test higher QPS ranges
+  - evaluate larger models and longer context lengths
 
 ---
 
@@ -373,29 +508,45 @@ Planned upgrades include:
 
 This project started as a lightweight local benchmarking workflow and has evolved into a reproducible inference benchmarking framework for modern LLM serving systems.
 
-Across four phases, the project progressed from:
-- a local baseline (Phase 1)
-- to a config-driven benchmarking framework (Phase 2)
-- to serving-system comparison with vLLM (Phase 3)
-- to a full multi-engine GPU benchmark including TensorRT-LLM (Phase 4)
+Across five phases, the project progressed from:
 
-The most important result is the Phase 4 comparison:
+* a local baseline (Phase 1)
+* to a config-driven benchmarking framework (Phase 2)
+* to serving-system comparison with vLLM (Phase 3)
+* to a full multi-engine GPU benchmark including TensorRT-LLM (Phase 4)
+* to production-scale load testing and system capacity analysis (Phase 5)
 
-- same model
-- same prompts
-- same hardware
-- three different inference engines
-- clear, measurable differences in latency, throughput, and stability
+The most important result is the Phase 5A load testing analysis:
+
+* same model
+* same prompts
+* same hardware
+* increasing request rates (QPS)
+* system behavior measured under sustained load
 
 Key findings:
-- TensorRT-LLM achieves the highest and most consistent throughput (~50 tok/s)
-- vLLM closely matches TensorRT performance but introduces occasional instability in small workloads
-- Hugging Face Transformers baseline is consistently slower (~15–20%) and scales poorly with output length
+
+* vLLM achieves near-linear scaling up to ~30 QPS on a single RTX 3090
+* latency remains stable (~1.3–1.5s) with tight P95/P99 bounds in the stable region
+* beyond ~30 QPS, the system enters saturation:
+
+  * achieved throughput falls below target QPS
+  * average latency increases significantly (~1.4s → ~2.4s)
+  * token throughput drops (~42 → ~25 tok/s)
+* no request failures observed even under high load (up to 50 QPS)
+
+Supporting results from Phase 4:
+
+* TensorRT-LLM achieves the highest and most consistent throughput (~50 tok/s)
+* vLLM closely matches TensorRT performance in single-request scenarios
+* Hugging Face Transformers baseline is consistently slower (~15–20%) and scales poorly with output length
 
 This project now reflects real-world ML systems engineering concerns:
-- GPU efficiency
-- inference optimization
-- serving architecture trade-offs
-- reproducible benchmarking workflows
 
-It provides a strong foundation for further NVIDIA-aligned work in high-performance inference systems, including Triton deployment and large-scale serving optimization.
+* inference engine efficiency
+* GPU utilization and batching behavior
+* system capacity and saturation limits
+* latency stability and tail latency (P95/P99)
+* reproducible benchmarking workflows under production-like conditions
+
+It provides a strong foundation for NVIDIA-aligned work in high-performance inference systems, including Triton deployment, dynamic batching optimization, and large-scale serving infrastructure.
