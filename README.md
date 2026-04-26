@@ -45,6 +45,7 @@ nvidia-llm-inference-bench/
 │   ├── raw/
 │   └── figures/
 └── report/
+```
 
 ## Phase 1: Local Baseline
 
