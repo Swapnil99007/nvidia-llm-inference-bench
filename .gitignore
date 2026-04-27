@@ -3,3 +3,12 @@
 venv_cloud/
 __pycache__/
 .DS_Store
+
+# Large runtime artifacts
+trt_engines/
+trt_checkpoints/
+hf_models/
+*.engine
+*.safetensors
+*.bin
+*.tar.gz
