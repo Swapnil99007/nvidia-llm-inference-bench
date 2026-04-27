@@ -560,114 +560,260 @@ This comparison highlights a key systems trade-off:
 
 ![Success Rate](results/figures/phase5_qps_engine_comparison/success_rate_comparison_vs_qps.png)
 
+Phase 5C: Triton + TensorRT-LLM vs vLLM (A100 Production Benchmark)
+
+Phase 5C evaluates a production-style deployment using
+NVIDIA Triton Inference Server + TensorRT-LLM, compared against vLLM
+on the same A100 GPU under identical workload conditions.
+
+Setup
+GPU: NVIDIA A100 (80GB)
+Model: Qwen/Qwen2.5-7B-Instruct
+Output length: ~64 tokens (aligned across engines)
+Test duration: 60 seconds per QPS level
+Engines:
+vllm
+triton_trtllm (Triton + TensorRT-LLM)
+Key Results
+Achieved Throughput (QPS)
+Target QPS	vLLM	Triton (TRT-LLM)
+30	~29.65	~29.63
+40	~39.53	~36.04
+50	~49.38	~36.01
+Average Latency
+QPS	vLLM	Triton
+30	~0.73s	~0.88s
+40	~0.79s	~2.05s
+50	~0.86s	~2.67s
+Token Throughput
+QPS	vLLM	Triton
+30	~83.8 tok/s	~73.0 tok/s
+40	~77.8 tok/s	~32.6 tok/s
+50	~71.4 tok/s	~24.7 tok/s
+Key Observations
+Both systems scale linearly up to ~30 QPS
+Beyond ~30 QPS:
+vLLM maintains stable latency and throughput
+Triton + TensorRT-LLM saturates, causing:
+sharp latency increase (2–3×)
+collapse in token throughput (~73 → ~25 tok/s)
+Maximum sustainable throughput:
+vLLM → ~49 QPS
+Triton → ~36 QPS
+System-Level Insights
+
+This phase reveals fundamental scheduling differences:
+
+vLLM
+continuous batching
+efficient KV cache scheduling
+smooth degradation under load
+optimized for high-concurrency LLM serving
+Triton + TensorRT-LLM
+discrete batching model
+queue-based scheduling
+strong performance under moderate load
+optimized for production pipelines and multi-model serving
+Key Takeaway
+
+Under identical A100 hardware and controlled output lengths,
+vLLM achieves higher throughput and lower latency at high concurrency,
+while Triton + TensorRT-LLM exhibits earlier saturation due to batching and scheduling overhead.
+
+Phase 5C Visualizations
+Average Latency vs QPS
+
+P95 Latency vs QPS
+
+P99 Latency vs QPS
+
+Throughput vs QPS
+
+Token Throughput vs QPS
+
 ## Current Status
 
 The project currently supports:
+
 - local baseline benchmarking
 - config-driven benchmark execution
 - structured metadata logging
-- Hugging Face vs vLLM vs TensorRT-LLM comparison
-- production-scale QPS load testing (Phase 5A)
-- multi-engine load comparison under sustained traffic (Phase 5B)
-- system capacity and saturation analysis
-- per-run summaries and comparison plots
+- Hugging Face vs vLLM vs TensorRT-LLM comparison (Phase 3–4)
+- production-scale QPS load testing for vLLM (Phase 5A)
+- multi-engine load comparison under identical hardware (Phase 5B)
+- Triton + TensorRT-LLM production deployment and benchmarking on A100 (Phase 5C)
+- system capacity and saturation analysis across multiple serving stacks
+- automated cross-engine comparison with visualization outputs
+- per-run summaries and reproducible benchmarking artifacts
 
 ---
 
 ## Limitations
 
-TensorRT-LLM is now integrated for both single-request and QPS-based benchmarking.
+While the project now includes Triton-based deployment and cross-engine benchmarking, several limitations remain:
 
-Remaining limitations:
-- Triton Inference Server deployment is not yet integrated
-- dynamic batching tuning across engines is not fully explored
-- GPU utilization profiling is not yet included
-- Triton Inference Server integration is pending
+- workload diversity is limited:
+  - current benchmarks primarily use fixed output length (~64 tokens)
+  - does not yet evaluate long-generation workloads (256–512 tokens)
+
+- Triton dynamic batching is not fully optimized:
+  - batch size and queue delay tuning remains incomplete
+  - current configuration may not fully exploit GPU saturation capabilities
+
+- load patterns are uniform:
+  - current QPS benchmarks use steady request rates
+  - burst traffic and real-world request variability are not yet simulated
+
+- GPU utilization profiling is not included:
+  - no direct correlation between utilization, memory pressure, and performance
+
+- multi-model and pipeline benchmarking is limited:
+  - Triton ensemble capabilities are implemented but not benchmarked extensively
+
+- single-GPU focus:
+  - multi-GPU and distributed inference scenarios are not yet explored
 
 ---
 
 ## Next Planned Improvements
 
-With Phase 5B completed, the next steps focus on production-grade deployment and deeper system optimization:
+With Phase 5C completed, the next phase focuses on deeper system-level analysis and fair benchmarking across diverse workloads:
 
-- Triton Inference Server integration
-  - deploy TensorRT-LLM using Triton
-  - benchmark production inference pipelines
+### Phase 5D: Workload-Sensitive Benchmarking
 
-- dynamic batching optimization
-  - analyze latency vs throughput trade-offs
-  - tune batch sizes under load
+- long-output benchmarking:
+  - evaluate performance for 256–512 token generation
+  - analyze kernel efficiency vs scheduler overhead
 
-- GPU utilization profiling
-  - correlate utilization, memory usage, and throughput
-  - identify bottlenecks
+- dynamic batching optimization (Triton):
+  - tune `max_batch_size`, `preferred_batch_size`, and queue delay
+  - study latency vs throughput trade-offs under batching
 
-- tail latency deep-dive
-  - analyze P95/P99 under extreme load
-  - study scheduling and queuing effects
+- burst traffic simulation:
+  - implement non-uniform request patterns
+  - evaluate batching efficiency under real-world load
 
-- multi-GPU scaling experiments
-  - evaluate horizontal scaling strategies
-  - benchmark distributed inference
+- heterogeneous workload testing:
+  - mixed prompt lengths and output sizes
+  - analyze scheduler robustness across engines
 
-- extended workload diversity
-  - longer context prompts
-  - larger models (13B, 70B)
+---
+
+### System Profiling
+
+- GPU utilization tracking:
+  - integrate `nvidia-smi` / profiling tools
+  - correlate utilization with throughput and latency
+
+- memory and KV-cache analysis:
+  - study impact of KV-cache growth on performance
+
+---
+
+### Production-Scale Extensions
+
+- Triton ensemble benchmarking:
+  - preprocessing → LLM → postprocessing pipelines
+  - measure end-to-end latency vs raw model latency
+
+- multi-GPU scaling:
+  - evaluate horizontal scaling efficiency
+  - benchmark distributed inference setups
+
+- larger models:
+  - extend experiments to 13B / 70B models
 
 ---
 
 ## Summary
 
-This project started as a lightweight local benchmarking workflow and has evolved into a reproducible inference benchmarking framework for modern LLM serving systems.
+This project has evolved into a comprehensive benchmarking framework for modern LLM inference systems, covering both single-request performance and production-scale load behavior.
 
 Across five phases, the project progressed from:
 
-* a local baseline (Phase 1)
-* to a config-driven benchmarking framework (Phase 2)
-* to serving-system comparison with vLLM (Phase 3)
-* to a full multi-engine GPU benchmark including TensorRT-LLM (Phase 4)
-* to production-scale load testing and system capacity analysis (Phase 5)
+* local baseline benchmarking (Phase 1)
+* config-driven experimentation (Phase 2)
+* inference engine comparison (Phase 3)
+* GPU-optimized multi-engine benchmarking (Phase 4)
+* production-scale QPS load testing (Phase 5)
 
-The most important result is the Phase 5A load testing analysis:
+---
 
-* same model
-* same prompts
-* same hardware
-* increasing request rates (QPS)
-* system behavior measured under sustained load
+## Key Findings
 
-Key findings:
+### Phase 4 (RTX 3090 – Single Request)
 
-* vLLM achieves near-linear scaling up to ~30 QPS on a single RTX 3090
-* beyond ~30 QPS, vLLM enters saturation with:
-  * increased latency (~1.3s → ~2.1s)
-  * reduced token throughput (~48 → ~29 tok/s)
+- TensorRT-LLM achieves the highest and most consistent throughput (~50 tok/s)
+- vLLM closely matches TensorRT performance
+- Hugging Face baseline is consistently slower (~15–20%)
 
-* TensorRT-LLM demonstrates superior scalability:
-  * ~25–30% lower latency at high load
-  * ~30–35% higher token throughput at 40 QPS
-  * better sustained throughput closer to target QPS
+---
 
-* both systems remain stable under sustained load (no failures at high QPS)
+### Phase 5A–5B (RTX 3090 – Load Testing)
 
-* tail latency trade-offs observed:
-  * TensorRT-LLM achieves lower P95/P99 at moderate load
-  * slightly higher P99 at extreme load (50 QPS)
+- vLLM scales near-linearly up to ~30 QPS
+- TensorRT-LLM demonstrates:
+  - lower latency under moderate load
+  - higher token throughput at higher QPS
+- both systems remain stable under sustained load
 
-These results highlight the importance of engine-level optimization for production-scale LLM serving.
+---
 
-Supporting results from Phase 4:
+### Phase 5C (A100 – Triton vs vLLM)
 
-* TensorRT-LLM achieves the highest and most consistent throughput (~50 tok/s)
-* vLLM closely matches TensorRT performance in single-request scenarios
-* Hugging Face Transformers baseline is consistently slower (~15–20%) and scales poorly with output length
+Under identical hardware and aligned output lengths:
 
-This project now reflects real-world ML systems engineering concerns:
+- both systems perform similarly up to ~30 QPS
+- beyond ~30 QPS:
 
-* inference engine efficiency
-* GPU utilization and batching behavior
-* system capacity and saturation limits
-* latency stability and tail latency (P95/P99)
-* reproducible benchmarking workflows under production-like conditions
+  **vLLM**
+  - maintains stable latency (~0.7–0.86s)
+  - scales to ~49 QPS
+  - shows gradual degradation
 
-It provides a strong foundation for NVIDIA-aligned work in high-performance inference systems, including Triton deployment, dynamic batching optimization, and large-scale serving infrastructure.
+  **Triton + TensorRT-LLM**
+  - saturates around ~36 QPS
+  - experiences sharp latency increase (~2–3×)
+  - shows collapse in token throughput under high load
+
+---
+
+## Final Insight
+
+This project demonstrates that **LLM inference performance is highly workload-dependent**:
+
+- vLLM excels in:
+  - high-concurrency, single-model serving
+  - dynamic batching and scheduler efficiency
+
+- TensorRT-LLM excels in:
+  - optimized GPU execution
+  - controlled batching environments
+  - production deployment via Triton pipelines
+
+---
+
+## Key Takeaway
+
+> There is no universally “best” inference engine — performance depends on workload characteristics, batching strategy, and serving architecture.
+
+---
+
+## What this project demonstrates
+
+- end-to-end benchmarking of LLM inference systems
+- GPU-level performance optimization and analysis
+- system capacity and saturation behavior under load
+- real-world trade-offs between scheduling and kernel efficiency
+- reproducible ML systems experimentation aligned with production scenarios
+
+---
+
+This project reflects real-world ML systems engineering challenges, including:
+
+- inference efficiency vs scalability
+- batching and scheduling trade-offs
+- latency stability and tail behavior
+- production deployment considerations
+
+It provides a strong foundation for work in high-performance inference systems, including Triton deployment, dynamic batching optimization, and large-scale LLM serving infrastructure.
