@@ -5,12 +5,12 @@ import pandas as pd
 
 
 RAW_DIR = Path("results/raw")
-FIGURE_DIR = Path("results/figures/phase5_qps_engine_comparison")
+FIGURE_DIR = Path("results/figures/phase5c_a100_vllm_vs_triton")
 
 
 ENGINE_PATTERNS = {
-    "vllm": "phase5_vllm_qps_*",
-    "tensorrt_llm": "phase5_trtllm_qps_*",
+    "vllm": "phase5_vllm_qps_20260427_043945",
+    "triton_trtllm_b32": "phase5_triton_qps_20260427_060654",
 }
 
 
@@ -67,7 +67,7 @@ def main() -> None:
 
     combined = pd.concat(dfs, ignore_index=True)
 
-    output_file = RAW_DIR / "latest_phase5_qps_engine_comparison.csv"
+    output_file = RAW_DIR / "latest_phase5c_a100_vllm_vs_triton.csv"
     combined.to_csv(output_file, index=False)
 
     plot_comparison(
