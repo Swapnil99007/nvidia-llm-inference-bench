@@ -12,3 +12,5 @@ hf_models/
 *.safetensors
 *.bin
 *.tar.gz
+*.nsys-rep
+*.sqlite

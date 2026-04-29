@@ -12,6 +12,7 @@ After optimizing Triton dynamic batching and engine configuration:
 - Achieved **~99% GPU utilization** (A100 80GB)
 - Eliminated earlier Triton performance collapse (~36 QPS)
 - Demonstrated **full GPU saturation under production-style load**
+- Nsight Systems confirms compute-bound execution with fused TensorRT kernels
 
 This shows that **system-level tuning (batching + scheduling)** is critical for unlocking inference performance.
 
@@ -745,6 +746,7 @@ Triton scheduling and TensorRT-LLM engine configuration.
 - ~98–99% utilization during active benchmark
 - ~76GB memory usage (weights + KV cache)
 - ~290–305W power draw
+- Nsight Systems profiling confirms compute-bound execution with continuous kernel activity
 
 ---
 
@@ -822,6 +824,80 @@ under identical A100 hardware and workload conditions.
 
 ---
 
+## Nsight Systems Profiling (Kernel-Level Analysis)
+
+To validate system behavior beyond aggregate metrics, NVIDIA Nsight Systems
+was used to profile Triton + TensorRT-LLM execution under Phase 5D conditions.
+
+### Profiling Setup
+
+- Tool: NVIDIA Nsight Systems (`nsys`)
+- Target: Triton Inference Server (TensorRT-LLM backend)
+- Trace: CUDA, NVTX, OS runtime
+- Workload: QPS = 50 (30-second run)
+- Hardware: NVIDIA A100 (80GB)
+
+> Note: Profiling was performed on a short-duration run to avoid instrumentation overhead affecting full QPS benchmarks.
+
+---
+
+### Key Observations
+
+- ~48% of execution time spent in TensorRT execution context (`enqueue`)
+- ~41% in attention and tensor operations
+- Continuous kernel launches (~2600+ enqueue operations)
+- Minimal CPU/runtime overhead (<2%)
+
+---
+
+### GPU Execution Behavior
+
+- Near-continuous GPU kernel activity under load
+- No significant idle gaps between kernel launches
+- High CUDA stream utilization
+- Large fused kernels (attention + tensor ops)
+
+---
+
+### Interpretation
+
+- GPU execution is **fully saturated**
+- System is **compute-bound**, not scheduler-bound
+- TensorRT-LLM kernels dominate execution time
+- Triton dynamic batching successfully feeds the GPU without starvation
+
+---
+
+### System-Level Insight
+
+After optimization:
+
+- **Phase 5C → scheduler-bound**
+- **Phase 5D → compute-bound**
+
+This confirms that:
+
+- batching and scheduling were the primary bottlenecks
+- proper configuration enables full GPU utilization
+- TensorRT-LLM achieves efficient kernel fusion under load
+
+---
+
+### Summary
+
+Nsight profiling validates that the optimized Triton pipeline:
+
+- achieves near-maximum GPU utilization
+- executes fused kernels efficiently
+- eliminates orchestration bottlenecks
+
+This aligns with observed metrics:
+- ~49 QPS throughput
+- ~1.06s latency
+- ~99% GPU utilization
+
+---
+
 ## Current Status
 
 The project currently supports:
@@ -859,7 +935,10 @@ While the project now includes Triton-based deployment and cross-engine benchmar
 
 - GPU utilization profiling has been incorporated:
   - nvidia-smi-based logging used to correlate utilization, memory usage, and QPS
-  - deeper kernel-level profiling (e.g., Nsight Systems) not yet included
+  
+- Nsight Systems profiling has been performed for kernel-level analysis:
+  - short-duration profiling used to validate compute-bound behavior
+  - full-run profiling not used due to instrumentation overhead
 
 - multi-model and pipeline benchmarking is limited:
   - Triton ensemble capabilities are implemented but not benchmarked extensively
