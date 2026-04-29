@@ -1,0 +1,163 @@
+# HELP nv_inference_request_success Number of successful inference requests, all batch sizes
+# TYPE nv_inference_request_success counter
+nv_inference_request_success{model="ensemble",version="1"} 23760
+nv_inference_request_success{model="preprocessing",version="1"} 23760
+nv_inference_request_success{model="postprocessing",version="1"} 23760
+nv_inference_request_success{model="tensorrt_llm",version="1"} 23760
+# HELP nv_inference_request_failure Number of failed inference requests, all batch sizes
+# TYPE nv_inference_request_failure counter
+nv_inference_request_failure{model="ensemble",reason="OTHER",version="1"} 0
+nv_inference_request_failure{model="ensemble",reason="BACKEND",version="1"} 0
+nv_inference_request_failure{model="tensorrt_llm",reason="BACKEND",version="1"} 0
+nv_inference_request_failure{model="tensorrt_llm",reason="CANCELED",version="1"} 0
+nv_inference_request_failure{model="preprocessing",reason="OTHER",version="1"} 0
+nv_inference_request_failure{model="tensorrt_llm",reason="OTHER",version="1"} 0
+nv_inference_request_failure{model="postprocessing",reason="REJECTED",version="1"} 0
+nv_inference_request_failure{model="postprocessing",reason="CANCELED",version="1"} 0
+nv_inference_request_failure{model="preprocessing",reason="REJECTED",version="1"} 0
+nv_inference_request_failure{model="postprocessing",reason="BACKEND",version="1"} 0
+nv_inference_request_failure{model="postprocessing",reason="OTHER",version="1"} 0
+nv_inference_request_failure{model="tensorrt_llm",reason="REJECTED",version="1"} 0
+nv_inference_request_failure{model="preprocessing",reason="CANCELED",version="1"} 0
+nv_inference_request_failure{model="preprocessing",reason="BACKEND",version="1"} 0
+nv_inference_request_failure{model="ensemble",reason="CANCELED",version="1"} 0
+nv_inference_request_failure{model="ensemble",reason="REJECTED",version="1"} 0
+# HELP nv_inference_count Number of inferences performed (does not include cached requests)
+# TYPE nv_inference_count counter
+nv_inference_count{model="ensemble",version="1"} 23760
+nv_inference_count{model="preprocessing",version="1"} 23760
+nv_inference_count{model="postprocessing",version="1"} 23760
+nv_inference_count{model="tensorrt_llm",version="1"} 23760
+# HELP nv_inference_exec_count Number of model executions performed (does not include cached requests)
+# TYPE nv_inference_exec_count counter
+nv_inference_exec_count{model="ensemble",version="1"} 23760
+nv_inference_exec_count{model="preprocessing",version="1"} 23760
+nv_inference_exec_count{model="postprocessing",version="1"} 23747
+nv_inference_exec_count{model="tensorrt_llm",version="1"} 23760
+# HELP nv_inference_request_duration_us Cumulative inference request duration in microseconds (includes cached requests)
+# TYPE nv_inference_request_duration_us counter
+nv_inference_request_duration_us{model="ensemble",version="1"} 21732535077
+nv_inference_request_duration_us{model="preprocessing",version="1"} 31711589
+nv_inference_request_duration_us{model="postprocessing",version="1"} 20950123
+nv_inference_request_duration_us{model="tensorrt_llm",version="1"} 21676160640
+# HELP nv_inference_queue_duration_us Cumulative inference queuing duration in microseconds (includes cached requests)
+# TYPE nv_inference_queue_duration_us counter
+nv_inference_queue_duration_us{model="ensemble",version="1"} 293715
+nv_inference_queue_duration_us{model="preprocessing",version="1"} 1526337
+nv_inference_queue_duration_us{model="postprocessing",version="1"} 2469537
+nv_inference_queue_duration_us{model="tensorrt_llm",version="1"} 122039580
+# HELP nv_inference_compute_input_duration_us Cumulative compute input duration in microseconds (does not include cached requests)
+# TYPE nv_inference_compute_input_duration_us counter
+nv_inference_compute_input_duration_us{model="ensemble",version="1"} 5025187
+nv_inference_compute_input_duration_us{model="preprocessing",version="1"} 1447459
+nv_inference_compute_input_duration_us{model="postprocessing",version="1"} 1159658
+nv_inference_compute_input_duration_us{model="tensorrt_llm",version="1"} 2394582
+# HELP nv_inference_compute_infer_duration_us Cumulative compute inference duration in microseconds (does not include cached requests)
+# TYPE nv_inference_compute_infer_duration_us counter
+nv_inference_compute_infer_duration_us{model="ensemble",version="1"} 21570828595
+nv_inference_compute_infer_duration_us{model="preprocessing",version="1"} 15748529
+nv_inference_compute_infer_duration_us{model="postprocessing",version="1"} 7988518
+nv_inference_compute_infer_duration_us{model="tensorrt_llm",version="1"} 21547068025
+# HELP nv_inference_compute_output_duration_us Cumulative inference compute output duration in microseconds (does not include cached requests)
+# TYPE nv_inference_compute_output_duration_us counter
+nv_inference_compute_output_duration_us{model="ensemble",version="1"} 26129790
+nv_inference_compute_output_duration_us{model="preprocessing",version="1"} 12683344
+nv_inference_compute_output_duration_us{model="postprocessing",version="1"} 9062262
+nv_inference_compute_output_duration_us{model="tensorrt_llm",version="1"} 4360669
+# HELP nv_energy_consumption GPU energy consumption in joules since the Triton Server started
+# TYPE nv_energy_consumption counter
+nv_energy_consumption{gpu_uuid="GPU-dde30aa2-8a87-9a9d-29d9-1f3b64e7a503"} 375797.1550000006
+# HELP nv_trt_llm_disaggregated_serving_metrics TRT LLM disaggregated serving metrics
+# TYPE nv_trt_llm_disaggregated_serving_metrics counter
+nv_trt_llm_disaggregated_serving_metrics{disaggregated_serving_type="request_count",model="tensorrt_llm",version="1"} 0
+nv_trt_llm_disaggregated_serving_metrics{disaggregated_serving_type="kv_cache_transfer_ms",model="tensorrt_llm",version="1"} 0
+# HELP nv_inference_pending_request_count Instantaneous number of pending requests awaiting execution per-model.
+# TYPE nv_inference_pending_request_count gauge
+nv_inference_pending_request_count{model="ensemble",version="1"} 0
+nv_inference_pending_request_count{model="preprocessing",version="1"} 0
+nv_inference_pending_request_count{model="postprocessing",version="1"} 0
+nv_inference_pending_request_count{model="tensorrt_llm",version="1"} 0
+# HELP nv_model_load_duration_secs Model load time in seconds
+# TYPE nv_model_load_duration_secs gauge
+nv_model_load_duration_secs{model="ensemble",version="1"} 0
+nv_model_load_duration_secs{model="preprocessing",version="1"} 8.961902562000001
+nv_model_load_duration_secs{model="postprocessing",version="1"} 8.579724358
+nv_model_load_duration_secs{model="tensorrt_llm",version="1"} 19.299926281
+# HELP nv_pinned_memory_pool_total_bytes Pinned memory pool total memory size, in bytes
+# TYPE nv_pinned_memory_pool_total_bytes gauge
+nv_pinned_memory_pool_total_bytes 268435456
+# HELP nv_pinned_memory_pool_used_bytes Pinned memory pool used memory size, in bytes
+# TYPE nv_pinned_memory_pool_used_bytes gauge
+nv_pinned_memory_pool_used_bytes 0
+# HELP nv_gpu_utilization GPU utilization rate [0.0 - 1.0)
+# TYPE nv_gpu_utilization gauge
+nv_gpu_utilization{gpu_uuid="GPU-dde30aa2-8a87-9a9d-29d9-1f3b64e7a503"} 0
+# HELP nv_gpu_memory_total_bytes GPU total memory, in bytes
+# TYPE nv_gpu_memory_total_bytes gauge
+nv_gpu_memory_total_bytes{gpu_uuid="GPU-dde30aa2-8a87-9a9d-29d9-1f3b64e7a503"} 85899345920
+# HELP nv_gpu_memory_used_bytes GPU used memory, in bytes
+# TYPE nv_gpu_memory_used_bytes gauge
+nv_gpu_memory_used_bytes{gpu_uuid="GPU-dde30aa2-8a87-9a9d-29d9-1f3b64e7a503"} 80672194560
+# HELP nv_gpu_power_usage GPU power usage in watts
+# TYPE nv_gpu_power_usage gauge
+nv_gpu_power_usage{gpu_uuid="GPU-dde30aa2-8a87-9a9d-29d9-1f3b64e7a503"} 71.593
+# HELP nv_gpu_power_limit GPU power management limit in watts
+# TYPE nv_gpu_power_limit gauge
+nv_gpu_power_limit{gpu_uuid="GPU-dde30aa2-8a87-9a9d-29d9-1f3b64e7a503"} 300
+# HELP nv_cpu_utilization CPU utilization rate [0.0 - 1.0]
+# TYPE nv_cpu_utilization gauge
+nv_cpu_utilization 0.03188496405126602
+# HELP nv_cpu_memory_total_bytes CPU total memory (RAM), in bytes
+# TYPE nv_cpu_memory_total_bytes gauge
+nv_cpu_memory_total_bytes 1082043465728
+# HELP nv_cpu_memory_used_bytes CPU used memory (RAM), in bytes
+# TYPE nv_cpu_memory_used_bytes gauge
+nv_cpu_memory_used_bytes 33313689600
+# HELP nv_trt_llm_request_metrics TRT LLM request metrics
+# TYPE nv_trt_llm_request_metrics gauge
+nv_trt_llm_request_metrics{model="tensorrt_llm",request_type="context",version="1"} 0
+nv_trt_llm_request_metrics{model="tensorrt_llm",request_type="scheduled",version="1"} 0
+nv_trt_llm_request_metrics{model="tensorrt_llm",request_type="max",version="1"} 128
+nv_trt_llm_request_metrics{model="tensorrt_llm",request_type="active",version="1"} 0
+# HELP nv_trt_llm_runtime_memory_metrics TRT LLM runtime memory metrics
+# TYPE nv_trt_llm_runtime_memory_metrics gauge
+nv_trt_llm_runtime_memory_metrics{memory_type="pinned",model="tensorrt_llm",version="1"} 538643204
+nv_trt_llm_runtime_memory_metrics{memory_type="gpu",model="tensorrt_llm",version="1"} 64848131559
+nv_trt_llm_runtime_memory_metrics{memory_type="cpu",model="tensorrt_llm",version="1"} 4092
+# HELP nv_trt_llm_kv_cache_block_metrics TRT LLM KV cache block metrics
+# TYPE nv_trt_llm_kv_cache_block_metrics gauge
+nv_trt_llm_kv_cache_block_metrics{kv_cache_block_type="reused",model="tensorrt_llm",version="1"} 0
+nv_trt_llm_kv_cache_block_metrics{kv_cache_block_type="tokens_per",model="tensorrt_llm",version="1"} 64
+nv_trt_llm_kv_cache_block_metrics{kv_cache_block_type="used",model="tensorrt_llm",version="1"} 0
+nv_trt_llm_kv_cache_block_metrics{kv_cache_block_type="free",model="tensorrt_llm",version="1"} 10940
+nv_trt_llm_kv_cache_block_metrics{kv_cache_block_type="max",model="tensorrt_llm",version="1"} 10940
+# HELP nv_trt_llm_inflight_batcher_metrics TRT LLM inflight_batcher-specific metrics
+# TYPE nv_trt_llm_inflight_batcher_metrics gauge
+nv_trt_llm_inflight_batcher_metrics{inflight_batcher_specific_metric="paused_requests",model="tensorrt_llm",version="1"} 0
+nv_trt_llm_inflight_batcher_metrics{inflight_batcher_specific_metric="micro_batch_id",model="tensorrt_llm",version="1"} 0
+nv_trt_llm_inflight_batcher_metrics{inflight_batcher_specific_metric="generation_requests",model="tensorrt_llm",version="1"} 0
+nv_trt_llm_inflight_batcher_metrics{inflight_batcher_specific_metric="total_context_tokens",model="tensorrt_llm",version="1"} 0
+# HELP nv_trt_llm_general_metrics General TRT LLM metrics
+# TYPE nv_trt_llm_general_metrics gauge
+nv_trt_llm_general_metrics{general_type="iteration_counter",model="tensorrt_llm",version="1"} 93944
+nv_trt_llm_general_metrics{general_type="timestamp",model="tensorrt_llm",version="1"} 1777492000495288
+# HELP nv_llm_output_token_len TRT LLM response metrics
+# TYPE nv_llm_output_token_len histogram
+nv_llm_output_token_len_count{model="tensorrt_llm",response_metric_type="total_output_tokens",version="1"} 23760
+nv_llm_output_token_len_sum{model="tensorrt_llm",response_metric_type="total_output_tokens",version="1"} 1520640
+nv_llm_output_token_len_bucket{model="tensorrt_llm",response_metric_type="total_output_tokens",version="1",le="10"} 0
+nv_llm_output_token_len_bucket{model="tensorrt_llm",response_metric_type="total_output_tokens",version="1",le="50"} 0
+nv_llm_output_token_len_bucket{model="tensorrt_llm",response_metric_type="total_output_tokens",version="1",le="100"} 23760
+nv_llm_output_token_len_bucket{model="tensorrt_llm",response_metric_type="total_output_tokens",version="1",le="500"} 23760
+nv_llm_output_token_len_bucket{model="tensorrt_llm",response_metric_type="total_output_tokens",version="1",le="1000"} 23760
+nv_llm_output_token_len_bucket{model="tensorrt_llm",response_metric_type="total_output_tokens",version="1",le="+Inf"} 23760
+# HELP nv_llm_input_token_len TRT LLM response metrics
+# TYPE nv_llm_input_token_len histogram
+nv_llm_input_token_len_count{model="tensorrt_llm",response_metric_type="total_input_tokens",version="1"} 23760
+nv_llm_input_token_len_sum{model="tensorrt_llm",response_metric_type="total_input_tokens",version="1"} 557172
+nv_llm_input_token_len_bucket{model="tensorrt_llm",response_metric_type="total_input_tokens",version="1",le="10"} 7128
+nv_llm_input_token_len_bucket{model="tensorrt_llm",response_metric_type="total_input_tokens",version="1",le="50"} 22572
+nv_llm_input_token_len_bucket{model="tensorrt_llm",response_metric_type="total_input_tokens",version="1",le="100"} 23760
+nv_llm_input_token_len_bucket{model="tensorrt_llm",response_metric_type="total_input_tokens",version="1",le="500"} 23760
+nv_llm_input_token_len_bucket{model="tensorrt_llm",response_metric_type="total_input_tokens",version="1",le="1000"} 23760
+nv_llm_input_token_len_bucket{model="tensorrt_llm",response_metric_type="total_input_tokens",version="1",le="+Inf"} 23760

@@ -1,0 +1,25 @@
+{
+  "run_name": "phase5_triton_qps",
+  "run_timestamp": "20260429_192047",
+  "engine_name": "triton_trtllm",
+  "hf_model_name": "Qwen/Qwen2.5-7B-Instruct",
+  "triton_model_name": "ensemble",
+  "triton_url": "localhost:8001",
+  "prompt_file": "prompts/prompts.jsonl",
+  "setting_label": "default_output",
+  "max_new_tokens": 64,
+  "qps_levels": [
+    1,
+    2,
+    5,
+    10,
+    15,
+    20,
+    25,
+    30,
+    40,
+    50
+  ],
+  "test_duration_sec": 60,
+  "grpc_mode": "streaming"
+}
