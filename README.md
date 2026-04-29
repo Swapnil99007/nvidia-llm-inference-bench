@@ -560,76 +560,119 @@ This comparison highlights a key systems trade-off:
 
 ![Success Rate](results/figures/phase5_qps_engine_comparison/success_rate_comparison_vs_qps.png)
 
-Phase 5C: Triton + TensorRT-LLM vs vLLM (A100 Production Benchmark)
+## Phase 5C: Triton + TensorRT-LLM vs vLLM (A100 Production Benchmark)
 
-Phase 5C evaluates a production-style deployment using
-NVIDIA Triton Inference Server + TensorRT-LLM, compared against vLLM
-on the same A100 GPU under identical workload conditions.
+Phase 5C evaluates a **production-style deployment** using  
+**NVIDIA Triton Inference Server + TensorRT-LLM**, compared against vLLM  
+on the **same A100 GPU** under identical workload conditions.
 
-Setup
-GPU: NVIDIA A100 (80GB)
-Model: Qwen/Qwen2.5-7B-Instruct
-Output length: ~64 tokens (aligned across engines)
-Test duration: 60 seconds per QPS level
-Engines:
-vllm
-triton_trtllm (Triton + TensorRT-LLM)
-Key Results
-Achieved Throughput (QPS)
-Target QPS	vLLM	Triton (TRT-LLM)
-30	~29.65	~29.63
-40	~39.53	~36.04
-50	~49.38	~36.01
-Average Latency
-QPS	vLLM	Triton
-30	~0.73s	~0.88s
-40	~0.79s	~2.05s
-50	~0.86s	~2.67s
-Token Throughput
-QPS	vLLM	Triton
-30	~83.8 tok/s	~73.0 tok/s
-40	~77.8 tok/s	~32.6 tok/s
-50	~71.4 tok/s	~24.7 tok/s
-Key Observations
-Both systems scale linearly up to ~30 QPS
-Beyond ~30 QPS:
-vLLM maintains stable latency and throughput
-Triton + TensorRT-LLM saturates, causing:
-sharp latency increase (2–3×)
-collapse in token throughput (~73 → ~25 tok/s)
-Maximum sustainable throughput:
-vLLM → ~49 QPS
-Triton → ~36 QPS
-System-Level Insights
+---
 
-This phase reveals fundamental scheduling differences:
+### Setup
 
-vLLM
-continuous batching
-efficient KV cache scheduling
-smooth degradation under load
-optimized for high-concurrency LLM serving
-Triton + TensorRT-LLM
-discrete batching model
-queue-based scheduling
-strong performance under moderate load
-optimized for production pipelines and multi-model serving
-Key Takeaway
+- **GPU:** NVIDIA A100 (80GB)  
+- **Model:** `Qwen/Qwen2.5-7B-Instruct`  
+- **Output length:** ~64 tokens (aligned across engines)  
+- **Test duration:** 60 seconds per QPS level  
+- **Engines:**
+  - `vllm`
+  - `triton_trtllm` (Triton + TensorRT-LLM)
 
-Under identical A100 hardware and controlled output lengths,
-vLLM achieves higher throughput and lower latency at high concurrency,
-while Triton + TensorRT-LLM exhibits earlier saturation due to batching and scheduling overhead.
+---
 
-Phase 5C Visualizations
-Average Latency vs QPS
+## Key Results
 
-P95 Latency vs QPS
+### Achieved Throughput (QPS)
 
-P99 Latency vs QPS
+| Target QPS | vLLM | Triton (TRT-LLM) |
+|-----------|------|------------------|
+| 30        | ~29.65 | ~29.63 |
+| 40        | ~39.53 | ~36.04 |
+| 50        | ~49.38 | ~36.01 |
 
-Throughput vs QPS
+---
 
-Token Throughput vs QPS
+### Average Latency
+
+| QPS | vLLM | Triton |
+|-----|------|--------|
+| 30  | ~0.73s | ~0.88s |
+| 40  | ~0.79s | ~2.05s |
+| 50  | ~0.86s | ~2.67s |
+
+---
+
+### Token Throughput
+
+| QPS | vLLM | Triton |
+|-----|------|--------|
+| 30  | ~83.8 tok/s | ~73.0 tok/s |
+| 40  | ~77.8 tok/s | ~32.6 tok/s |
+| 50  | ~71.4 tok/s | ~24.7 tok/s |
+
+---
+
+## Key Observations
+
+- Both systems scale **linearly up to ~30 QPS**
+- Beyond ~30 QPS:
+  - **vLLM maintains stable latency and throughput**
+  - **Triton + TensorRT-LLM saturates**, causing:
+    - sharp latency increase (2–3×)
+    - collapse in token throughput (~73 → ~25 tok/s)
+
+### Maximum sustainable throughput
+
+- **vLLM → ~49 QPS**
+- **Triton → ~36 QPS**
+
+---
+
+## System-Level Insights
+
+This phase highlights **fundamental scheduling differences**:
+
+### vLLM
+- continuous batching
+- efficient KV-cache scheduling
+- smooth degradation under load
+- optimized for **high-concurrency LLM serving**
+
+### Triton + TensorRT-LLM
+- discrete batching model
+- queue-based scheduling
+- strong performance under moderate load
+- optimized for **production pipelines and multi-model serving**
+
+---
+
+## Key Takeaway
+
+> Under identical A100 hardware and controlled output lengths,  
+> vLLM achieves higher throughput and lower latency at high concurrency,  
+> while Triton + TensorRT-LLM exhibits earlier saturation due to batching and scheduling overhead.
+
+---
+
+## Phase 5C Visualizations
+
+### Average Latency vs QPS
+![Avg Latency](results/figures/phase5c_a100_vllm_vs_triton/avg_latency_comparison_vs_qps.png)
+
+### P95 Latency vs QPS
+![P95 Latency](results/figures/phase5c_a100_vllm_vs_triton/p95_latency_comparison_vs_qps.png)
+
+### P99 Latency vs QPS
+![P99 Latency](results/figures/phase5c_a100_vllm_vs_triton/p99_latency_comparison_vs_qps.png)
+
+### Throughput vs QPS
+![Throughput](results/figures/phase5c_a100_vllm_vs_triton/throughput_comparison_vs_qps.png)
+
+### Token Throughput vs QPS
+![Token Throughput](results/figures/phase5c_a100_vllm_vs_triton/token_throughput_comparison_vs_qps.png)
+
+### Success Rate vs QPS
+![Success Rate](results/figures/phase5c_a100_vllm_vs_triton/success_rate_comparison_vs_qps.png)
 
 ## Current Status
 
