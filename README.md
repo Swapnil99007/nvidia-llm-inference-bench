@@ -2,15 +2,18 @@
 
 A reproducible benchmarking framework for comparing modern LLM inference engines across latency, throughput, and system-level behavior.
 
-## Key Result (Phase 4)
+## 🚀 Key Result (A100 Production Benchmark)
 
-On Qwen2.5-7B-Instruct (RTX 3090):
+After optimizing Triton dynamic batching and engine configuration:
 
-- **TensorRT-LLM** → ~50.7 tok/s (best, most stable)
-- **vLLM** → ~50 tok/s (high performance, minor instability)
-- **Hugging Face Transformers** → ~42 tok/s (baseline)
+- **Triton + TensorRT-LLM** → ~49.3 QPS @ ~1.06s latency  
+- **vLLM** → ~49.3 QPS @ ~0.86s latency  
 
-~**20% throughput improvement** and **lower latency** using optimized inference engines.
+- Achieved **~99% GPU utilization** (A100 80GB)
+- Eliminated earlier Triton performance collapse (~36 QPS)
+- Demonstrated **full GPU saturation under production-style load**
+
+This shows that **system-level tuning (batching + scheduling)** is critical for unlocking inference performance.
 
 ---
 
@@ -622,9 +625,21 @@ on the **same A100 GPU** under identical workload conditions.
     - collapse in token throughput (~73 → ~25 tok/s)
 
 ### Maximum sustainable throughput
+### Updated Insight
 
-- **vLLM → ~49 QPS**
-- **Triton → ~36 QPS**
+In the initial configuration (Phase 5C), Triton saturated at ~36 QPS due to:
+
+- limited batch size
+- insufficient engine capacity
+- suboptimal batching strategy
+
+This limitation was resolved in Phase 5D through:
+
+- inflight fused batching
+- increased batch size (128)
+- larger token capacity
+
+As a result, Triton scaled to ~49 QPS with stable latency and full GPU utilization.
 
 ---
 
@@ -649,8 +664,8 @@ This phase highlights **fundamental scheduling differences**:
 ## Key Takeaway
 
 > Under identical A100 hardware and controlled output lengths,  
-> vLLM achieves higher throughput and lower latency at high concurrency,  
-> while Triton + TensorRT-LLM exhibits earlier saturation due to batching and scheduling overhead.
+> In the initial configuration, vLLM outperformed Triton due to better batching efficiency.
+> However, after Phase 5D optimization, Triton achieves comparable throughput while maintaining stable latency.
 
 ---
 
@@ -674,6 +689,139 @@ This phase highlights **fundamental scheduling differences**:
 ### Success Rate vs QPS
 ![Success Rate](results/figures/phase5c_a100_vllm_vs_triton/success_rate_comparison_vs_qps.png)
 
+## Phase 5D: Triton Dynamic Batching Optimization (A100)
+
+Phase 5D resolves the performance collapse observed in Phase 5C by optimizing
+Triton scheduling and TensorRT-LLM engine configuration.
+
+---
+
+### Objective
+
+- eliminate early saturation (~36 QPS)
+- achieve full GPU utilization
+- improve throughput and latency stability under load
+
+---
+
+### Key Configuration Changes
+
+#### TensorRT-LLM Engine
+
+- `max_batch_size = 128`
+- `max_num_tokens = 8192`
+- paged KV cache enabled
+
+#### Triton Configuration
+
+- `batching_strategy = inflight_fused_batching`
+- `preferred_batch_size = [128]`
+- `max_queue_delay_microseconds = 5000`
+
+---
+
+### Results (A100)
+
+#### Achieved Throughput
+
+| QPS | Phase 5C | Phase 5D |
+|-----|----------|----------|
+| 40  | ~36      | ~39.5    |
+| 50  | ~36      | ~49.3    |
+
+---
+
+#### Average Latency
+
+| QPS | Phase 5C | Phase 5D |
+|-----|----------|----------|
+| 40  | ~2.05s   | ~0.98s   |
+| 50  | ~2.67s   | ~1.06s   |
+
+---
+
+#### GPU Utilization
+
+- ~98–99% utilization during active benchmark
+- ~76GB memory usage (weights + KV cache)
+- ~290–305W power draw
+
+---
+
+### Key Observations
+
+- Triton no longer collapses beyond ~30 QPS
+- Near-linear scaling up to ~50 QPS
+- GPU fully saturated under load
+- Latency remains stable (~1 second range)
+
+---
+
+### Comparison vs vLLM (A100)
+
+At 50 QPS:
+
+| Metric | vLLM | Triton (5D) |
+|--------|------|------------|
+| Avg latency | ~0.86s | ~1.06s |
+| P99 latency | ~0.90s | ~1.07s |
+| Tokens/sec | ~71 | ~60 |
+| Success rate | 100% | 100% |
+
+---
+
+### System-Level Insight
+
+Triton performance is highly sensitive to batching and scheduling configuration.
+
+- default configuration → early saturation (~36 QPS)
+- optimized configuration → full GPU utilization and stable scaling
+
+This highlights the importance of **dynamic batching and engine capacity tuning**
+in production LLM inference systems.
+
+### Critical Insight
+
+Despite achieving similar throughput (~49 QPS), vLLM and Triton differ fundamentally:
+
+- vLLM achieves efficiency through continuous batching and scheduler design
+- Triton achieves efficiency through aggressive batching and GPU kernel optimization
+
+This highlights a key trade-off:
+- vLLM → lower latency, simpler serving path
+- Triton → higher control, production-ready orchestration, but requires tuning
+
+---
+
+## Phase 5D Visualizations
+
+These plots compare vLLM and Triton + TensorRT-LLM (optimized with inflight batching)
+under identical A100 hardware and workload conditions.
+
+### Average Latency vs QPS
+![Avg Latency](results/figures/phase5d_a100_vllm_vs_triton_bs128_inflight/avg_latency_comparison_vs_qps.png)
+
+### P95 Latency vs QPS
+![P95 Latency](results/figures/phase5d_a100_vllm_vs_triton_bs128_inflight/p95_latency_comparison_vs_qps.png)
+
+### P99 Latency vs QPS
+![P99 Latency](results/figures/phase5d_a100_vllm_vs_triton_bs128_inflight/p99_latency_comparison_vs_qps.png)
+
+### Throughput vs QPS
+![Throughput](results/figures/phase5d_a100_vllm_vs_triton_bs128_inflight/throughput_comparison_vs_qps.png)
+
+### Token Throughput vs QPS
+![Token Throughput](results/figures/phase5d_a100_vllm_vs_triton_bs128_inflight/token_throughput_comparison_vs_qps.png)
+
+### Success Rate vs QPS
+![Success Rate](results/figures/phase5d_a100_vllm_vs_triton_bs128_inflight/success_rate_comparison_vs_qps.png)
+
+### GPU Utilization During Load
+
+![GPU Utilization](results/profiling/gpu_utilization_triton_bs128.png)
+
+---
+
 ## Current Status
 
 The project currently supports:
@@ -688,6 +836,8 @@ The project currently supports:
 - system capacity and saturation analysis across multiple serving stacks
 - automated cross-engine comparison with visualization outputs
 - per-run summaries and reproducible benchmarking artifacts
+- Triton dynamic batching optimization and A100 saturation analysis (Phase 5D)
+- GPU utilization profiling and correlation with QPS-based load testing
 
 ---
 
@@ -699,16 +849,17 @@ While the project now includes Triton-based deployment and cross-engine benchmar
   - current benchmarks primarily use fixed output length (~64 tokens)
   - does not yet evaluate long-generation workloads (256–512 tokens)
 
-- Triton dynamic batching is not fully optimized:
-  - batch size and queue delay tuning remains incomplete
-  - current configuration may not fully exploit GPU saturation capabilities
+- Triton dynamic batching has been optimized for high-throughput workloads, but:
+  - tuning is workload-dependent
+  - further improvements possible for mixed workloads and long-generation tasks
 
 - load patterns are uniform:
   - current QPS benchmarks use steady request rates
   - burst traffic and real-world request variability are not yet simulated
 
-- GPU utilization profiling is not included:
-  - no direct correlation between utilization, memory pressure, and performance
+- GPU utilization profiling has been incorporated:
+  - nvidia-smi-based logging used to correlate utilization, memory usage, and QPS
+  - deeper kernel-level profiling (e.g., Nsight Systems) not yet included
 
 - multi-model and pipeline benchmarking is limited:
   - Triton ensemble capabilities are implemented but not benchmarked extensively
@@ -802,22 +953,22 @@ Across five phases, the project progressed from:
 
 ---
 
-### Phase 5C (A100 – Triton vs vLLM)
+### Phase 5C–5D (A100 – Triton vs vLLM)
 
-Under identical hardware and aligned output lengths:
-
-- both systems perform similarly up to ~30 QPS
-- beyond ~30 QPS:
-
-  **vLLM**
-  - maintains stable latency (~0.7–0.86s)
+- default Triton configuration → early saturation (~36 QPS)
+- optimized Triton configuration (Phase 5D):
   - scales to ~49 QPS
-  - shows gradual degradation
+  - achieves ~99% GPU utilization
+  - maintains ~1s latency under load
 
-  **Triton + TensorRT-LLM**
-  - saturates around ~36 QPS
-  - experiences sharp latency increase (~2–3×)
-  - shows collapse in token throughput under high load
+**vLLM**
+- lower latency (~0.86s at 50 QPS)
+- efficient continuous batching
+
+**Triton + TensorRT-LLM**
+- requires careful tuning
+- competitive throughput when optimized
+- full GPU saturation achievable
 
 ---
 
